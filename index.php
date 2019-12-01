@@ -3,7 +3,7 @@ session_start();
 ?>
 <html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Media Clambake - Sudoku by Briton Westerhaus.</title>
+<title>Briton Westerhaus - Sudoku</title>
 <meta name="description" content="An online version of sudoku." />
 <meta name="keywords" content="media, entertainment, fun, games" />
 <meta name="author" content="Briton Westerhaus" />
@@ -11,21 +11,21 @@ session_start();
 <div class="content">
 <form action="index.php" method="post">
 <?php
-	if($_POST[submit] == "Easy"){
+	if($_POST['submit'] == "Easy"){
 		$_SESSION[difficulty] = 20;
 		makegrid();
 	}
-	elseif($_POST[submit] == "Medium"){
+	elseif($_POST['submit'] == "Medium"){
 		$_SESSION[difficulty] = 12;
 		makegrid();
 	}
-	elseif($_POST[submit] == "Hard"){
+	elseif($_POST['submit'] == "Hard"){
 		$_SESSION[difficulty] = 5;
 		makegrid();
 	}
-	elseif($_POST[submit] == "Check/Complete")
+	elseif($_POST['submit'] == "Check/Complete")
 		$done = checkguess();
-	elseif($_POST[submit] == "Get a new Sudoku!" || !isset($_POST[submit])){
+	elseif($_POST['submit'] == "Get a new Sudoku!" || !isset($_POST['submit'])){
 		unset($_SESSION[difficulty]);
 		echo '<h2><center>Choose your difficulty.</center></h2>';
 		echo '<center><input type="submit" name="submit" value="Easy" />';
@@ -41,7 +41,7 @@ session_start();
 			for($k = 3 * $i; $k < 3 * $i + 3; $k++){
 				echo "<tr>";
 				for($l = 3 * $j; $l < 3 * $j + 3; $l++){
-					echo '<td width="30" align="center">' . $_SESSION[guessgrid][$k][$l] . '</td>';
+					echo '<td width="30" align="center">' . $_SESSION['guessgrid'][$k][$l] . '</td>';
 				}
 				echo "</tr>";
 			}
@@ -55,17 +55,17 @@ session_start();
 	}
 	#functions
 function makegrid(){
-	unset($_SESSION[fullgrid]);
-	$_SESSION[fullgrid] = array();
+	unset($_SESSION['fullgrid']);
+	$_SESSION['fullgrid'] = array();
 	for($i = 0; $i < 9; $i++)
-		$_SESSION[fullgrid][$i] = array();
+		$_SESSION['fullgrid'][$i] = array();
 	recurse(0, 0);
-	$_SESSION[guessgrid] = array();
+	$_SESSION['guessgrid'] = array();
 	for($i = 0; $i < 9; $i++)
-		$_SESSION[guessgrid][$i] = array();
+		$_SESSION['guessgrid'][$i] = array();
 	for($i = 0; $i < 9; $i++){
 		for($j = 0; $j < 9; $j++){
-			$_SESSION[guessgrid][$i][$j] = $_SESSION[fullgrid][$i][$j];
+			$_SESSION['guessgrid'][$i][$j] = $_SESSION['fullgrid'][$i][$j];
 		}
 	}
 	removesome($_SESSION[difficulty]);
@@ -75,24 +75,24 @@ function recurse($x, $y){
 	$numberexcluded = 0;
 	$allowed = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
 	for($k = 0; $k < 9; $k++){
-		if($allowed[$_SESSION[fullgrid][$k][$y]] != false){
-			$allowed[$_SESSION[fullgrid][$k][$y]] = false;
+		if($allowed[$_SESSION['fullgrid'][$k][$y]] != false){
+			$allowed[$_SESSION['fullgrid'][$k][$y]] = false;
 			$numberexcluded++;
 		}
-		if($allowed[$_SESSION[fullgrid][$x][$k]] != false){
-			$allowed[$_SESSION[fullgrid][$x][$k]] = false;
+		if($allowed[$_SESSION['fullgrid'][$x][$k]] != false){
+			$allowed[$_SESSION['fullgrid'][$x][$k]] = false;
 			$numberexcluded++;
 		}
 	}
 	if($numberexcluded == 9)
-		return array(boolean => false, value =>0);;
+		return array(boolean => false, value => 0);;
 	#echo "Number Excluded 1: $numberexcluded <br />";
 	$xpos = 2 - ($x % 3);
 	$ypos = 2 - ($y % 3);
 	for($k = -2; $k <= 0; $k++){
 		for($l = -2; $l <= 0; $l++){
-			if($allowed[$_SESSION[fullgrid][$x + $xpos + $k][$y + $ypos + $l]] != false){
-				$allowed[$_SESSION[fullgrid][$x + $xpos + $k][$y + $ypos + $l]] = false;
+			if($allowed[$_SESSION['fullgrid'][$x + $xpos + $k][$y + $ypos + $l]] != false){
+				$allowed[$_SESSION['fullgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
 				$numberexcluded++;
 			}
 		}
@@ -104,8 +104,8 @@ function recurse($x, $y){
 			$whichnumbers[] = $i;
 	}
 	if($x == 8 && $y == 8){
-		$_SESSION[fullgrid][$x][$y] = $whichnumbers[rand(0, count($whichnumbers) - 1)];
-		return array(boolean =>true, value => $_SESSION[fullgrid][$x][$y]);
+		$_SESSION['fullgrid'][$x][$y] = $whichnumbers[rand(0, count($whichnumbers) - 1)];
+		return array(boolean => true, value => $_SESSION['fullgrid'][$x][$y]);
 	}
 	$nexty = $y;
 	if($x == 8):
@@ -116,13 +116,13 @@ function recurse($x, $y){
 	endif;
 	$testnext = false;
 	while(!$testnext){
-		$_SESSION[fullgrid][$x][$y] = $whichnumbers[rand(0, count($whichnumbers) - 1)];
+		$_SESSION['fullgrid'][$x][$y] = $whichnumbers[rand(0, count($whichnumbers) - 1)];
 		$testnext = recurse($nextx, $nexty);
 		if($testnext[value] == 0){
-			$allowed[$_SESSION[fullgrid][$x][$y]] = false;
+			$allowed[$_SESSION['fullgrid'][$x][$y]] = false;
 			$numberexcluded++;
 			if($numberexcluded == 9){
-				unset($_SESSION[fullgrid][$x][$y]);
+				unset($_SESSION['fullgrid'][$x][$y]);
 				return array(boolean => false, value => 0);
 			}
 			unset($whichnumbers);
@@ -133,21 +133,21 @@ function recurse($x, $y){
 		}
 		$testnext = $testnext[boolean];
 	}
-	return array(boolean =>true, value => $_SESSION[fullgrid][$x][$y]);
+	return array(boolean =>true, value => $_SESSION['fullgrid'][$x][$y]);
 }
 function removesome($difficulty){
 	$solvable = true;
 	while($solvable){
 		$x = rand(0, 8);
 		$y = rand(0, 8);
-		$_SESSION[guessgrid][$x][$y] = '<input type="text" size="1" maxlength="1" name="' . $x . ':' . $y . '" />';
+		$_SESSION['guessgrid'][$x][$y] = '<input type="text" size="1" maxlength="1" name="' . $x . ':' . $y . '" />';
 		$solvable = cansolve();
 	}
-	$_SESSION[guessgrid][$x][$y] = $_SESSION[fullgrid][$x][$y];
+	$_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
 	for($i = 0; $i < $difficulty; $i++){
 		$x = rand(0, 8);
 		$y = rand(0, 8);
-		$_SESSION[guessgrid][$x][$y] = $_SESSION[fullgrid][$x][$y];
+		$_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
 	}
 }
 function cansolve(){
@@ -162,17 +162,17 @@ function cansolve(){
 function solvehelp($x, $y){
 	$canbe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
 	for($i = 0; $i < 9; $i++){
-		if(is_int($_SESSION[guessgrid][$x][$i]))
-			$canbe[$_SESSION[guessgrid][$x][$i]] = false;
-		if(is_int($_SESSION[guessgrid][$i][$y]))
-			$canbe[$_SESSION[guessgrid][$i][$y]] = false;
+		if(is_int($_SESSION['guessgrid'][$x][$i]))
+			$canbe[$_SESSION['guessgrid'][$x][$i]] = false;
+		if(is_int($_SESSION['guessgrid'][$i][$y]))
+			$canbe[$_SESSION['guessgrid'][$i][$y]] = false;
 	}
 	$xpos = 2 - ($x % 3);
 	$ypos = 2 - ($y % 3);
 	for($k = -2; $k <= 0; $k++){
 		for($l = -2; $l <= 0; $l++){
-			if(is_int($_SESSION[guessgrid][$x + $xpos + $k][$y + $ypos + $l]))
-				$canbe[$_SESSION[guessgrid][$x + $xpos + $k][$y + $ypos + $l]] = false;
+			if(is_int($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]))
+				$canbe[$_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
 		}
 	}
 	$count = 0;
@@ -188,9 +188,9 @@ function checkguess(){
 	$count = 0;
 	for($i = 0; $i < 9; $i++){
 		for($j = 0; $j < 9; $j++){
-			if($_POST[$i . ":" . $j] == $_SESSION[fullgrid][$i][$j])
-				$_SESSION[guessgrid][$i][$j] = $_SESSION[fullgrid][$i][$j];
-			if($_SESSION[guessgrid][$i][$j] == $_SESSION[fullgrid][$i][$j])
+			if($_POST[$i . ":" . $j] == $_SESSION['fullgrid'][$i][$j])
+				$_SESSION['guessgrid'][$i][$j] = $_SESSION['fullgrid'][$i][$j];
+			if($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
 				$count++;
 		}
 	}
@@ -199,22 +199,6 @@ function checkguess(){
 }
 ?>
 </form>
-<br />
-<a href="comment.php?category=games&content=Sudoku">Comment</a>
-<br />
-<?php DisplayShareLinks(); ?><br /><button id="butt" onclick="showcomment();">Post a Comment</button>
-<form id="commentarea" action="comment.php" method="post" style="visibility:hidden" onsubmit"return validate(<?php echo isset($_SESSION['username']); ?>)">
-</form>
-<?php CommentsAndRating(); ?>
-<table class="comments" border="2">
-<tr>
-<th class="user">User</th>
-<th class="comment">Comment</th>
-<th class="rating">Rating</th>
-<th>Date</th>
-</tr>
-<?php Comments.ContentComments.DisplayComments(); ?>
-</table>
 </div>
 </center>
 </div>
