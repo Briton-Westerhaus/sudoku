@@ -10,6 +10,14 @@
     width: fit-content;
 }
 
+h2 {
+    margin: .75em;
+}
+
+form {
+    margin-top: 50%;
+}
+
 table {
     border-collapse: collapse;
 }
@@ -27,4 +35,8 @@ td {
 
 input[type=submit] {
     cursor: pointer;
+    margin: 1em;
+    padding: .25em;
+    border: 1px solid black;
+    border-radius: 5px;
 }
