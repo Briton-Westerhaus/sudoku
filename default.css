@@ -19,18 +19,23 @@ form {
 }
 
 table {
+    border: 1px solid black;
     border-collapse: collapse;
 }
 
 input[type=text] {
     border: none;
     width: 100%;
-    line-height: 1.5em;
+    line-height: 1.875em;
+    width: 1.875em;
     font-size: 1em;
 }
 
 td {
-    line-height: 1.5em;
+    line-height: 1.875em;
+    width: 1.875em;
+    border: 1px solid black;
+    text-align: center;
 }
 
 input[type=submit] {
