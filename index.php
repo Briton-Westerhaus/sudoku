@@ -8,6 +8,7 @@
 		<meta name="description" content="An online version of sudoku." />
 		<meta name="keywords" content="media, entertainment, fun, games" />
 		<meta name="author" content="Briton Westerhaus" />
+		<link rel="stylesheet" type="text/css" href="default.css" />
 	</head>
 	<body>
 		<div class="content">
@@ -32,15 +33,15 @@
 						echo '<input type="submit" name="submit" value="Hard" /></center>';
 					}
 					if (isSet($_SESSION['difficulty'])) {
-						echo '<table border="1" align="center" bgcolor=#FFFFFF>';
+						echo '<table bgcolor=#FFFFFF>';
 						for ($i = 0; $i < 3; $i++) {
 							echo "<tr>";
 							for ($j = 0; $j < 3; $j++) {
-								echo '<td><table border="1" bgcolor=#FFFFFF>';
+								echo '<td><table bgcolor=#FFFFFF>';
 								for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
 									echo "<tr>";
 									for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-										echo '<td width="30" align="center">' . $_SESSION['guessgrid'][$k][$l] . '</td>';
+										echo '<td>' . $_SESSION['guessgrid'][$k][$l] . '</td>';
 									}
 									echo "</tr>";
 								}
