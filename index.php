@@ -12,6 +12,7 @@
 	</head>
 	<body>
 		<div class="content">
+			<h1>Sudoku</h1>
 			<form action="index.php" method="post">
 				<?php
 					if ($_POST['submit'] == "Easy") {
