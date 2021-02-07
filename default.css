@@ -42,7 +42,12 @@ td {
 input[type=submit] {
     cursor: pointer;
     margin: 1em;
-    padding: .25em;
+    padding: .4em;
     border: 1px solid black;
     border-radius: 5px;
+    background-color: rgb(220, 220, 220);
+}
+
+input[type=submit]:hover {
+    background-color: rgb(236, 236, 236);
 }
