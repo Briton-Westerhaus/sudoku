@@ -14,7 +14,7 @@
 	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submit'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
 		<div class="content">
 			<h1>Sudoku</h1>
-			<form action="index.php" method="post">
+			<form action="index.php" method="post" autocomplete="off">
 				<?php
 					if ($_POST['submit'] == "Easy") {
 						$_SESSION['difficulty'] = 20;
