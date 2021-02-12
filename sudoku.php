@@ -85,7 +85,7 @@
         while ($solvable) {
             $x = rand(0, 8);
             $y = rand(0, 8);
-            $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" />';
+            $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')"/>';
             $solvable = canSolve();
         }
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
