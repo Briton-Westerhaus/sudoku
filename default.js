@@ -1,9 +1,6 @@
-let activeX, activeY;
-
-function selectInput(inputX, inputY) {
-    activeX = inputX;
-    activeY = inputY;
-    let input = document.getElementById(activeX + ':' + activeY);
+function selectInput(inputNumber) {
+    selectedInput = inputNumber;
+    let input = document.getElementById("input" + inputNumber);
     input.focus();
     input.select();
 }
@@ -12,20 +9,6 @@ function inputChanged(evt) {
     if (evt.value.length == 1) {
         selectInput(selectedInput + 1);
     }
-}
-
-function init() {
-    let element;
-    let x = -1, y = 0;
-    while (!element) {
-        x++;
-        if (x > 8) {
-            x = 0;
-            y++;
-        }
-        element = document.getElementById(x + ':' + y);
-    }
-    selectInput(x, y);
 }
 
 document.onkeydown = function(evt) {
