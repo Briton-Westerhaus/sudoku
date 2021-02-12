@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="default.css" />
 		<script type="text/javascript" src="default.js"></script>
 	</head>
-	<body<?php if (isSet($_SESSION['guessgrid'])) echo ' onload="init();"'; ?>>
+	<body onload="init();">
 		<div class="content">
 			<h1>Sudoku</h1>
 			<form action="index.php" method="post">

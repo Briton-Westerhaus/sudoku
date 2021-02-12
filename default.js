@@ -16,12 +16,12 @@ function inputChanged(evt) {
 
 function init() {
     let element;
-    let x = 0, y = -1;
+    let x = -1, y = 0;
     while (!element) {
-        y++;
-        if (y > 8) {
-            y = 0;
-            x++;
+        x++;
+        if (x > 8) {
+            x = 0;
+            y++;
         }
         element = document.getElementById(x + ':' + y);
     }
