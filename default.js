@@ -24,6 +24,8 @@ function init() {
             x++;
         }
         element = document.getElementById(x + ':' + y);
+        if (!element && x > 8)
+            return;
     }
     selectInput(x, y);
 }
@@ -38,14 +40,22 @@ function left() {
             x--;
         }
         element = document.getElementById(x + ':' + y);
-        if (!element && y <= 0 && x <= 0)
+        if (!element && x < 0)
             return;
     }
     selectInput(x, y);
 }
 
 function up() {
-
+    let element;
+    let x = activeX, y = activeY;
+    while (!element) {
+        x--;
+        element = document.getElementById(x + ':' + y);
+        if (!element && x < 0)
+            return;
+    }
+    selectInput(x, y);
 }
 
 function right() {
@@ -60,14 +70,22 @@ function right() {
             x++;
         }
         element = document.getElementById(x + ':' + y);
-        if (!element && y >= 8 && x >= 8)
+        if (!element && x > 8)
             return;
     }
     selectInput(x, y);
 }
 
 function down() {
-
+    let element;
+    let x = activeX, y = activeY;
+    while (!element) {
+        x++;
+        element = document.getElementById(x + ':' + y);
+        if (!element && x > 8)
+            return;
+    }
+    selectInput(x, y);
 }
 
 document.onkeydown = function(evt) {
