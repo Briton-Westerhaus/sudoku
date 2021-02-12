@@ -13,7 +13,7 @@
 	<body>
 		<div class="content">
 			<h1>Sudoku</h1>
-			<form action="index.php" method="post">
+			<form action="index.php" method="post" autocomplete="off">
 				<?php
 					if ($_POST['submit'] == "Easy") {
 						$_SESSION['difficulty'] = 20;
