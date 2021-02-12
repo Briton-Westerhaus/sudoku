@@ -1,5 +1,5 @@
 <?php
-    function makeGrid() {
+    function makegrid() {
         unset($_SESSION['fullgrid']);
         $_SESSION['fullgrid'] = array();
         for($i = 0; $i < 9; $i++)
@@ -35,7 +35,7 @@
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
             for ($l = -2; $l <= 0; $l++) {
-                if($allowed[$_SESSION['fullgrid'][$x + $xpos + $k][$y + $ypos + $l]] != false) {
+                if($allowed[$_SESSION['fullgrid'][$x + $xpos + $k][$y + $ypos + $l]] != false){
                     $allowed[$_SESSION['fullgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
                     $numberexcluded++;
                 }
@@ -85,7 +85,11 @@
         while ($solvable) {
             $x = rand(0, 8);
             $y = rand(0, 8);
+<<<<<<< HEAD
             $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')"/>';
+=======
+            $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" name="' . $x . ':' . $y . '" />';
+>>>>>>> master
             $solvable = canSolve();
         }
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
@@ -131,7 +135,7 @@
             return true;
         return false;
     }
-    function checkGuess() {
+    function checkguess() {
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
