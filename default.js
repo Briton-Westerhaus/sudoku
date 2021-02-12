@@ -8,12 +8,6 @@ function selectInput(inputX, inputY) {
     input.select();
 }
 
-function inputChanged(evt) {
-    if (evt.value.length == 1) {
-        selectInput(selectedInput + 1);
-    }
-}
-
 function init() {
     let element;
     let x = 0, y = -1;
