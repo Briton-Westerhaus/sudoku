@@ -8,6 +8,13 @@ function selectInput(inputX, inputY) {
     input.select();
 }
 
+function inputChanged(evt) {
+    let theValue = Number(evt.value);
+    if (isNaN(theValue) || theValue == 0 || theValue > 9) {
+        document.getElementById(evt.id).value = "";
+    }
+}
+
 function init() {
     let element;
     let x = 0, y = -1;

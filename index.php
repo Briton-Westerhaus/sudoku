@@ -25,7 +25,7 @@
 					} else if ($_POST['submit'] == "Hard") {
 						$_SESSION['difficulty'] = 5;
 						makeGrid();
-					} else if ($_POST['submit'] == "Check/Complete") {
+					} else if ($_POST['submit'] == "Check") {
 						$done = checkGuess();
 					} else if ($_POST['submit'] == "Get a new Sudoku!" || !isSet($_POST['submit'])) {
 						unset($_SESSION['difficulty']);
@@ -52,7 +52,7 @@
 							echo "</tr>";
 						}
 						echo "</tbody></table>";
-						echo '<center><input type="submit" name="submit" value="Check/Complete" />';
+						echo '<center><input type="submit" name="submit" value="Check" />';
 						echo '<input type="submit" name="submit" value="Get a new Sudoku!" /></center>';
 					}
 				?>
