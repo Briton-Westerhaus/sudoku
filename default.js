@@ -20,7 +20,7 @@ function inputChanged(evt) {
             theElement = document.getElementById(x + ':' + y);
             if (theElement == null)
                 continue;
-            if (document.getElementById(x + ':' + y).value.length < 1)
+            if (theElement.value.length < 1)
                 return;
         }
     }
@@ -43,6 +43,23 @@ function init() {
             return;
     }
     selectInput(x, y);
+
+    window.setTimeout(clearWrong, 3000);
+}
+
+function clearWrong() {
+    let theElement;
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            theElement = document.getElementById(x + ':' + y);
+            if (theElement == null)
+                continue;
+            if (theElement.className == "wrong") {
+                theElement.className = "";
+                theElement.value = "";
+            }
+        }
+    } 
 }
 
 function left() {

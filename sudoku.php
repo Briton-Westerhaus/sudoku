@@ -135,9 +135,13 @@
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-                if($_POST[$i . ":" . $j] == $_SESSION['fullgrid'][$i][$j])
+                if ($_POST[$i . ":" . $j] == $_SESSION['fullgrid'][$i][$j])
                     $_SESSION['guessgrid'][$i][$j] = $_SESSION['fullgrid'][$i][$j];
-                if($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
+                else if (strlen($_POST[$i . ":" . $j]) > 0) { // wrong guess
+                    $exploded = explode(' type="text" ', $_SESSION['guessgrid'][$i][$j]);
+                    $_SESSION['guessgrid'][$i][$j] = $exploded[0] . ' class="wrong" type="text" value="' . $_POST[$i . ":" . $j] . '" ' . $exploded[1];
+                }
+                if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
                     $count++;
             }
         }
