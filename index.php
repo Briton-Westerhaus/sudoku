@@ -14,7 +14,7 @@
 	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submit'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
 		<div class="content">
 			<h1>Sudoku</h1>
-			<form action="index.php" method="post" autocomplete="off">
+			<form action="index.php" method="post" autocomplete="off" id="TheForm">
 				<?php
 					if ($_POST['submit'] == "Easy") {
 						$_SESSION['difficulty'] = 20;
@@ -25,7 +25,7 @@
 					} else if ($_POST['submit'] == "Hard") {
 						$_SESSION['difficulty'] = 5;
 						makeGrid();
-					} else if ($_POST['submit'] == "Check") {
+					} else if ($_POST['submit'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
 					} else if ($_POST['submit'] == "Get a new Sudoku!" || !isSet($_POST['submit'])) {
 						unset($_SESSION['difficulty']);
@@ -35,6 +35,7 @@
 						echo '<input type="submit" name="submit" value="Hard" /></center>';
 					}
 					if (isSet($_SESSION['difficulty'])) {
+						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
 						for ($i = 0; $i < 3; $i++) {
 							echo "<tr>";

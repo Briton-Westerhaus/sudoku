@@ -13,6 +13,20 @@ function inputChanged(evt) {
     if (isNaN(theValue) || theValue == 0 || theValue > 9) {
         document.getElementById(evt.id).value = "";
     }
+
+    let theElement;
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            theElement = document.getElementById(x + ':' + y);
+            if (theElement == null)
+                continue;
+            if (document.getElementById(x + ':' + y).value.length < 1)
+                return;
+        }
+    }
+
+    document.getElementById("Completed").value = true;
+    document.getElementById("TheForm").submit();
 }
 
 function init() {
