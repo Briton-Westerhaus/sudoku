@@ -11,28 +11,28 @@
 		<link rel="stylesheet" type="text/css" href="default.css" />
 		<script type="text/javascript" src="default.js"></script>
 	</head>
-	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submit'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
+	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submitButton'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
 		<div class="content">
 			<h1>Sudoku</h1>
 			<form action="index.php" method="post" autocomplete="off" id="TheForm">
 				<?php
-					if ($_POST['submit'] == "Easy") {
+					if ($_POST['submitButton'] == "Easy") {
 						$_SESSION['difficulty'] = 20;
 						makeGrid();
-					} else if ($_POST['submit'] == "Medium") {
+					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 12;
 						makeGrid();
-					} else if ($_POST['submit'] == "Hard") {
+					} else if ($_POST['submitButton'] == "Hard") {
 						$_SESSION['difficulty'] = 5;
 						makeGrid();
-					} else if ($_POST['submit'] == "Check" || $_POST['completed'] == "true") {
+					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
-					} else if ($_POST['submit'] == "Get a new Sudoku!" || !isSet($_POST['submit'])) {
+					} else if ($_POST['submitButton'] == "Get a new Sudoku!" || !isSet($_POST['submitButton'])) {
 						unset($_SESSION['difficulty']);
 						echo '<h2><center>Choose your difficulty.</center></h2>';
-						echo '<center><input type="submit" name="submit" value="Easy" />';
-						echo '<input type="submit" name="submit" value="Medium" />';
-						echo '<input type="submit" name="submit" value="Hard" /></center>';
+						echo '<center><input type="submit" name="submitButton" value="Easy" />';
+						echo '<input type="submit" name="submitButton" value="Medium" />';
+						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
@@ -53,8 +53,8 @@
 							echo "</tr>";
 						}
 						echo "</tbody></table>";
-						echo '<center><input type="submit" name="submit" value="Check" />';
-						echo '<input type="submit" name="submit" value="Get a new Sudoku!" /></center>';
+						echo '<center><input type="submit" name="submitButton" value="Check" />';
+						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" /></center>';
 					}
 				?>
 			</form>
