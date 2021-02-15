@@ -57,6 +57,7 @@ function clearWrong() {
             if (theElement.className == "wrong") {
                 theElement.className = "";
                 theElement.value = "";
+                theElement.attributes["value"].value = "";
             }
         }
     } 
