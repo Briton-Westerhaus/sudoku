@@ -140,6 +140,8 @@
                 else if (strlen($_POST[$i . ":" . $j]) > 0) { // wrong guess
                     $exploded = explode(' type="text" ', $_SESSION['guessgrid'][$i][$j]);
                     $_SESSION['guessgrid'][$i][$j] = $exploded[0] . ' class="wrong" type="text" value="' . $_POST[$i . ":" . $j] . '" ' . $exploded[1];
+                } else if ($_SESSION['guessgrid'][$i][$j] != $_SESSION['fullgrid'][$i][$j]) { //cleanup?
+                    $_SESSION['guessgrid'][$i][$j] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
                 }
                 if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
                     $count++;
