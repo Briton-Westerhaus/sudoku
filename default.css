@@ -50,6 +50,12 @@ td {
     text-align: center;
 }
 
+td span {
+    line-height: 1.875em;
+    width: 1.875em;
+    display: inline-block;
+}
+
 input[type=submit] {
     cursor: pointer;
     margin: 1em;

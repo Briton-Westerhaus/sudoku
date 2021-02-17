@@ -96,7 +96,7 @@
         }
     }
 
-    function canSolve(){
+    function canSolve() {
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
                 if (solvehelp($i, $j))
@@ -140,7 +140,7 @@
                 else if (strlen($_POST[$i . ":" . $j]) > 0) { // wrong guess
                     $exploded = explode(' type="text" ', $_SESSION['guessgrid'][$i][$j]);
                     $_SESSION['guessgrid'][$i][$j] = $exploded[0] . ' class="wrong" type="text" value="' . $_POST[$i . ":" . $j] . '" ' . $exploded[1];
-                } else if ($_SESSION['guessgrid'][$i][$j] != $_SESSION['fullgrid'][$i][$j]) { //cleanup?
+                } else if ($_SESSION['guessgrid'][$i][$j] != $_SESSION['fullgrid'][$i][$j]) { // cleanup?
                     $_SESSION['guessgrid'][$i][$j] = '<input type="text" maxlength="1" id="' . $i . ':' . $j . '" name="' . $i . ':' . $j . '" onselect="selectInput(' . $i . ', ' . $j . ')" onclick="selectInput(' . $i . ', ' . $j . ')" oninput="inputChanged(this)" />';
                 }
                 if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
