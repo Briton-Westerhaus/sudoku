@@ -20,7 +20,7 @@ function inputChanged(evt) {
             theElement = document.getElementById(x + ':' + y);
             if (theElement == null)
                 continue;
-            if (theElement.value.length < 1)
+            if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
                 return;
         }
     }
