@@ -44,23 +44,26 @@ function init() {
     }
     selectInput(x, y);
 
-    window.setTimeout(clearWrong, 3000);
+    window.setTimeout(clearResults, 3000);
 }
 
-function clearWrong() {
+function clearResults() {
     let theElement;
-    for (let x = 0; x < 9; x++) {
-        for (let y = 0; y < 9; y++) {
-            theElement = document.getElementById(x + ':' + y);
-            if (theElement == null)
-                continue;
-            if (theElement.className == "wrong") {
-                theElement.className = "";
-                theElement.value = "";
-                theElement.attributes["value"].value = "";
-            }
-        }
-    } 
+    let elements = document.getElementsByClassName("wrong");
+
+    for (let i = 0; i < elements.length; i++) {
+        theElement = elements[i];
+        theElement.className = "";
+        theElement.value = "";
+        theElement.attributes["value"].value = "";
+    }
+
+    elements = document.getElementsByClassName("correct");
+
+    for (let i = 0; i < elements.length; i++) {
+        theElement = elements[i];
+        theElement.className = "";
+    }
 }
 
 function left() {

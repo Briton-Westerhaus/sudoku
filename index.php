@@ -44,7 +44,10 @@
 								for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
 									echo "<tr>";
 									for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-										echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+										if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
+										echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+										else
+											echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
 									}
 									echo "</tr>";
 								}

@@ -72,3 +72,7 @@ input[type=submit]:hover {
 .wrong {
     color: red;
 }
+
+.correct {
+    font-weight: bold;
+}
