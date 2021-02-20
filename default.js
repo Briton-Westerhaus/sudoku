@@ -1,6 +1,8 @@
 let activeX, activeY;
 
 function selectInput(inputX, inputY) {
+    if (activeX == inputX && activeY == inputY)
+        return;
     activeX = inputX;
     activeY = inputY;
     let input = document.getElementById(activeX + ':' + activeY);
@@ -51,18 +53,20 @@ function clearResults() {
     let theElement;
     let elements = document.getElementsByClassName("wrong");
 
-    for (let i = 0; i < elements.length; i++) {
-        theElement = elements[i];
+    while (!!elements && elements.length > 0) {
+        theElement = elements[0];
         theElement.className = "";
         theElement.value = "";
         theElement.attributes["value"].value = "";
+        elements = document.getElementsByClassName("wrong");
     }
 
     elements = document.getElementsByClassName("correct");
 
-    for (let i = 0; i < elements.length; i++) {
-        theElement = elements[i];
+    while (!!elements && elements.length > 0) {
+        theElement = elements[0];
         theElement.className = "";
+        elements = document.getElementsByClassName("correct");
     }
 }
 
