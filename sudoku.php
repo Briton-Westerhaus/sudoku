@@ -131,6 +131,7 @@
             return true;
         return false;
     }
+
     function checkGuess() {
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
@@ -147,7 +148,10 @@
                     $count++;
             }
         }
-        if($count == 81)
+        if($count == 81) {
+            if ($_POST['completed'])
+                echo '<script type="text/javascript">alert("You win!");</script>';
             return true;
+        }
     }
 ?>
