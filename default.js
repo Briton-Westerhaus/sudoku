@@ -42,11 +42,15 @@ function init() {
         }
         element = document.getElementById(x + ':' + y);
         if (!element && x > 8)
-            return;
+            break;
     }
-    selectInput(x, y);
+    if (element) {
+        selectInput(x, y);
 
-    window.setTimeout(clearResults, 3000);
+        window.setTimeout(clearResults, 3000);
+    } else { // Comlet3ed
+        clearResults();
+    }
 }
 
 function clearResults() {
