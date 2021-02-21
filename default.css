@@ -105,7 +105,11 @@ input[type=submit]:hover {
 .modal h3 {
     text-align: center;
     margin-top: 3em;
-    margin-bottom: 3em;
+    margin-bottom: 1.5em;
+}
+
+.modal p{
+    margin: .5em;
 }
 
 button { /* Close button */

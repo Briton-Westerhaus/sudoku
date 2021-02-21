@@ -29,12 +29,14 @@
 						$done = checkGuess();
 					} else if ($_POST['submitButton'] == "Get a new Sudoku!" || !isSet($_POST['submitButton'])) {
 						unset($_SESSION['difficulty']);
+						$_SESSION['checks'] = 0;
+						$_SESSION['incorrects'] = 0;
 						echo '<h2><center>Choose your difficulty.</center></h2>';
 						echo '<center><input type="submit" name="submitButton" value="Easy" />';
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
-					
+
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
@@ -71,6 +73,8 @@
 			<div id="ModalContainer">
 				<form action="index.php" method="post" class="modal">
 					<h3>You win!</h3>
+					<p>Checks: <?php echo $_SESSION['checks']; ?></p>
+					<p>Wrong Numbers: <?php echo $_SESSION['incorrects']; ?></p>
 					<input type="submit" name="submitButton" value="Get a new Sudoku!" />
 				</form>
 				<button onclick="closeModal();" name="submitButton">&#10006;</button>
