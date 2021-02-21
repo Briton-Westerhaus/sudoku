@@ -34,7 +34,7 @@
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
-					$done = true;
+					
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
