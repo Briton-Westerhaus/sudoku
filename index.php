@@ -34,7 +34,7 @@
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
-
+					$done = true;
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
@@ -57,19 +57,23 @@
 							echo "</tr>";
 						}
 						echo "</tbody></table>";
-						echo '<center><input type="submit" name="submitButton" value="Check" />';
-						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" /></center>';
+						echo '<section>';
+						if (!$done)
+							echo '<input type="submit" name="submitButton" value="Check" />';
+						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
+						echo '</section>';
 					}
 				?>
 			</form>
 			<?php
 				if ($done) {
 			?>
-			<div class="modal-container">
+			<div id="ModalContainer">
 				<form action="index.php" method="post" class="modal">
 					<h3>You win!</h3>
 					<input type="submit" name="submitButton" value="Get a new Sudoku!" />
 				</form>
+				<button onclick="closeModal();" name="submitButton">&#10006;</button>
 			</div>
 			<?php
 				}

@@ -70,6 +70,10 @@ function clearResults() {
     }
 }
 
+function closeModal() {
+    document.getElementById("ModalContainer").style.display = "none";
+}
+
 function left() {
     let element;
     let x = activeX, y = activeY;
