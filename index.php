@@ -34,6 +34,7 @@
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
+
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
@@ -61,6 +62,18 @@
 					}
 				?>
 			</form>
+			<?php
+				if ($done) {
+			?>
+			<div class="modal-container">
+				<form action="index.php" method="post" class="modal">
+					<h3>You win!</h3>
+					<input type="submit" name="submitButton" value="Get a new Sudoku!" />
+				</form>
+			</div>
+			<?php
+				}
+			?>
 		</div>
 	</body>
 </html>

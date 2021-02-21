@@ -149,8 +149,6 @@
             }
         }
         if($count == 81) {
-            if ($_POST['completed'])
-                echo '<script type="text/javascript">alert("You win!");</script>';
             return true;
         }
     }
