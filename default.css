@@ -13,6 +13,7 @@
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
+    width: -moz-fit-content;
     text-align: center;
 }
 
@@ -37,7 +38,6 @@ table {
 
 input[type=text] {
     border: none;
-    width: 100%;
     line-height: 1.875em;
     width: 1.875em;
     font-size: 1em;
@@ -51,6 +51,12 @@ td {
     text-align: center;
 }
 
+td span {
+    line-height: 1.875em;
+    width: 1.875em;
+    display: inline-block;
+}
+
 input[type=submit] {
     cursor: pointer;
     margin: 1em;
@@ -62,4 +68,62 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: rgb(236, 236, 236);
+}
+
+.wrong {
+    color: red;
+}
+
+.correct {
+    font-weight: bold;
+}
+
+#ModalContainer {
+    background-color: rgba(214, 214, 214, 0.8);
+    z-index: 997;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.modal {
+    border: 1px solid black;
+    border-radius: 5px;
+    position: absolute;
+    z-index:998;
+    width: 30%;
+    height: 30%;
+    top: 35%;
+    left: 35%;
+    background: white;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.modal h3 {
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 1.5em;
+}
+
+.modal p{
+    margin: .5em;
+}
+
+button { /* Close button */
+    color: black;
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    position: absolute;
+    right: calc(35% - 10px);
+    top: calc(35% - 10px);
+    z-index: 999;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 18px;
 }

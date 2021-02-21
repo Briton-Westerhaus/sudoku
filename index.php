@@ -11,30 +11,34 @@
 		<link rel="stylesheet" type="text/css" href="default.css" />
 		<script type="text/javascript" src="default.js"></script>
 	</head>
-	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submit'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
+	<body<?php if (isSet($_SESSION['guessgrid']) && $_POST['submitButton'] != "Get a new Sudoku!") echo ' onload="init();"'; ?>>
 		<div class="content">
 			<h1>Sudoku</h1>
-			<form action="index.php" method="post" autocomplete="off">
+			<form action="index.php" method="post" autocomplete="off" id="TheForm">
 				<?php
-					if ($_POST['submit'] == "Easy") {
+					if ($_POST['submitButton'] == "Easy") {
 						$_SESSION['difficulty'] = 20;
 						makeGrid();
-					} else if ($_POST['submit'] == "Medium") {
+					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 12;
 						makeGrid();
-					} else if ($_POST['submit'] == "Hard") {
+					} else if ($_POST['submitButton'] == "Hard") {
 						$_SESSION['difficulty'] = 5;
 						makeGrid();
-					} else if ($_POST['submit'] == "Check/Complete") {
+					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
-					} else if ($_POST['submit'] == "Get a new Sudoku!" || !isSet($_POST['submit'])) {
+					} else if ($_POST['submitButton'] == "Get a new Sudoku!" || !isSet($_POST['submitButton'])) {
 						unset($_SESSION['difficulty']);
+						$_SESSION['checks'] = 0;
+						$_SESSION['incorrects'] = 0;
 						echo '<h2><center>Choose your difficulty.</center></h2>';
-						echo '<center><input type="submit" name="submit" value="Easy" />';
-						echo '<input type="submit" name="submit" value="Medium" />';
-						echo '<input type="submit" name="submit" value="Hard" /></center>';
+						echo '<center><input type="submit" name="submitButton" value="Easy" />';
+						echo '<input type="submit" name="submitButton" value="Medium" />';
+						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
 					}
+
 					if (isSet($_SESSION['difficulty'])) {
+						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
 						echo '<table><tbody>';
 						for ($i = 0; $i < 3; $i++) {
 							echo "<tr>";
@@ -43,7 +47,10 @@
 								for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
 									echo "<tr>";
 									for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-										echo '<td>' . $_SESSION['guessgrid'][$k][$l] . '</td>';
+										if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
+										echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+										else
+											echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
 									}
 									echo "</tr>";
 								}
@@ -52,11 +59,29 @@
 							echo "</tr>";
 						}
 						echo "</tbody></table>";
-						echo '<center><input type="submit" name="submit" value="Check/Complete" />';
-						echo '<input type="submit" name="submit" value="Get a new Sudoku!" /></center>';
+						echo '<section>';
+						if (!$done)
+							echo '<input type="submit" name="submitButton" value="Check" />';
+						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
+						echo '</section>';
 					}
 				?>
 			</form>
+			<?php
+				if ($done) {
+			?>
+			<div id="ModalContainer">
+				<form action="index.php" method="post" class="modal">
+					<h3>You win!</h3>
+					<p>Checks: <?php echo $_SESSION['checks']; ?></p>
+					<p>Wrong Numbers: <?php echo $_SESSION['incorrects']; ?></p>
+					<input type="submit" name="submitButton" value="Get a new Sudoku!" />
+				</form>
+				<button onclick="closeModal();" name="submitButton">&#10006;</button>
+			</div>
+			<?php
+				}
+			?>
 		</div>
 	</body>
 </html>
