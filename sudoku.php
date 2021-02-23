@@ -14,6 +14,15 @@
             }
         }
         removeSome($_SESSION['difficulty']);
+        $count = 0;
+        for ($i = 0; $i < 9; $i++) {
+            for ($j = 0; $j < 9; $j++) {
+
+                if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
+                    $count++;
+            }
+        }
+        echo $count;
     }
 
     function recurse($x, $y) {
@@ -87,7 +96,28 @@
             $y = rand(0, 8);
             $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
             $solvable = canSolve();
+            echo "Removed " . $x . ", " . $y . "<br />";
         }
+        echo '<table><tbody>';
+        for ($i = 0; $i < 3; $i++) {
+            echo "<tr>";
+            for ($j = 0; $j < 3; $j++) {
+                echo '<td><table><tbody>';
+                for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
+                    echo "<tr>";
+                    for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
+                        if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
+                        echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+                        else
+                            echo '<td><span>' . $_SESSION['fullgrid'][$k][$l] . '</span></td>';
+                    }
+                    echo "</tr>";
+                }
+                echo '</tbody></table></td>';
+            }
+            echo "</tr>";
+        }
+        echo "</tbody></table>";
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         for ($i = 0; $i < $difficulty; $i++) {
             $x = rand(0, 8);
@@ -103,8 +133,10 @@
     function canSolve() {
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-                if (solveHelp($i, $j))
+                if (solveHelp($i, $j)) {
+                    echo "Can solve at " . $i . ", " . $j . "<br />";
                     return true;
+                }
             }
         }
         return false;
@@ -134,7 +166,7 @@
         if ($count == 1)
             return true;
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
-        for ($i = 1; $i <= 9; $i++) {
+        /*for ($i = 1; $i <= 9; $i++) {
             if ($canBe[$i]) {
                 $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
@@ -170,7 +202,7 @@
                 }
                 
             }
-        }
+        }*/
         return false;
     }
 
