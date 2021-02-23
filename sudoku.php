@@ -92,6 +92,10 @@
         for ($i = 0; $i < $difficulty; $i++) {
             $x = rand(0, 8);
             $y = rand(0, 8);
+            while ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) { //Don't want to put a number back in, if it's already in!
+                $x = rand(0, 8);
+                $y = rand(0, 8);
+            }
             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         }
     }
