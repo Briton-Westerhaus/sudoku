@@ -130,16 +130,40 @@
         if ($count == 1)
             return true;
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
-        for ($i = 1; $1 <= 9; $i++) {
+        for ($i = 1; $i <= 9; $i++) {
             if ($canBe[$i]) {
-                $excluded = false;
                 $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
-                    if (canBe($x, $j, $i))
-                        return false;
-                    if (canBe($j, $y, $i))
-                        return false;
+                    if ($j != $y) {
+                        if (canBe($x, $j, $i)) {
+                            $anotherCanBeNumber = true;
+                            break;
+                        }
+                    }
+                    if ($j != $x) {
+                        if (canBe($j, $y, $i)) {
+                            $anotherCanBeNumber = true;
+                            break;
+                        }
+                    }
                 }
+                for ($k = -2; $k <= 0; $k++) {
+                    for ($l = -2; $l <= 0; $l++) {
+                        if (!($xpos + $k == 0 && $ypos + $l == 0)) {
+                            if (canBe($x + $xpos + $k, $y + $ypos + $l, $i)) {
+                                $anotherCanBeNumber = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ($anotherCanBeNumber)
+                        break;
+                }
+                if (!$anotherCanBeNumber) {
+                    return true;
+                    echo "Found another can be number for " . $i . "at " . $x . ", " . $y;
+                }
+                
             }
         }
         return false;
@@ -147,16 +171,16 @@
 
     function canBe($x, $y, $num) {
         for ($i = 0; $i < 9; $i++) {
-            if ($_SESSION['guessgrid'][$x][$i]) == $num)
+            if ($_SESSION['guessgrid'][$x][$i] == $num)
                 return false;
-            if ($_SESSION['guessgrid'][$i][$y]) == $num)
+            if ($_SESSION['guessgrid'][$i][$y] == $num)
                 return false;
         }
         $xpos = 2 - ($x % 3);
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
             for ($l = -2; $l <= 0; $l++) {
-                if ($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]) == $num)
+                if ($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l] == $num)
                     return false;
             }
         }
