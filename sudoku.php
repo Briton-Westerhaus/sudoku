@@ -147,6 +147,7 @@
                         }
                     }
                 }
+
                 for ($k = -2; $k <= 0; $k++) {
                     for ($l = -2; $l <= 0; $l++) {
                         if (!($xpos + $k == 0 && $ypos + $l == 0)) {
@@ -161,7 +162,7 @@
                 }
                 if (!$anotherCanBeNumber) {
                     return true;
-                    echo "Found another can be number for " . $i . "at " . $x . ", " . $y;
+                    
                 }
                 
             }
