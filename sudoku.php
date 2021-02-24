@@ -90,14 +90,6 @@
     }
 
     function removeSome($difficulty) {
-        $solvable = true;
-        while ($solvable) {
-            $x = rand(0, 8);
-            $y = rand(0, 8);
-            $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-            $solvable = canSolve();
-            echo "Removed " . $x . ", " . $y . "<br />";
-        }
         echo '<table><tbody>';
         for ($i = 0; $i < 3; $i++) {
             echo "<tr>";
@@ -118,6 +110,36 @@
             echo "</tr>";
         }
         echo "</tbody></table>";
+        $solvable = true;
+        while ($solvable) {
+            $x = rand(0, 8);
+            $y = rand(0, 8);
+            if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
+               $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
+                $solvable = canSolve();
+                echo "Removed " . $x . ", " . $y . "<br />";
+            }
+        }
+        echo '<table><tbody>';
+        for ($i = 0; $i < 3; $i++) {
+            echo "<tr>";
+            for ($j = 0; $j < 3; $j++) {
+                echo '<td><table><tbody>';
+                for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
+                    echo "<tr>";
+                    for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
+                        if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
+                        echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+                        else
+                            echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+                    }
+                    echo "</tr>";
+                }
+                echo '</tbody></table></td>';
+            }
+            echo "</tr>";
+        }
+        echo "</tbody></table>";
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         for ($i = 0; $i < $difficulty; $i++) {
             $x = rand(0, 8);
@@ -126,6 +148,7 @@
                 $x = rand(0, 8);
                 $y = rand(0, 8);
             }
+            echo "Added " . $x . ", " . $y . "<br />";
             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         }
     }
@@ -137,25 +160,33 @@
                     echo "Can solve at " . $i . ", " . $j . "<br />";
                     return true;
                 }
-            }
+             }
         }
         return false;
     }
 
     function solveHelp($x, $y) {
+        if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) //Can't solve with an already given number!
+            return false;
         $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
         for ($i = 0; $i < 9; $i++) {
-            if (is_int($_SESSION['guessgrid'][$x][$i]))
-                $canBe[$_SESSION['guessgrid'][$x][$i]] = false;
-            if (is_int($_SESSION['guessgrid'][$i][$y]))
-                $canBe[$_SESSION['guessgrid'][$i][$y]] = false;
+            if ($i != $y) {
+                if (is_int($_SESSION['guessgrid'][$x][$i]))
+                    $canBe[$_SESSION['guessgrid'][$x][$i]] = false;
+            }
+            if ($j != $x) {
+                if (is_int($_SESSION['guessgrid'][$i][$y]))
+                    $canBe[$_SESSION['guessgrid'][$i][$y]] = false;
+            }
         }
         $xpos = 2 - ($x % 3);
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
             for ($l = -2; $l <= 0; $l++) {
-                if (is_int($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]))
-                    $canBe[$_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
+                if (!($xpos + $k == 0 && $ypos + $l == 0)) {
+                    if (is_int($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]))
+                        $canBe[$_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
+                }        
             }
         }
         $count = 0;
@@ -176,7 +207,7 @@
                             break;
                         }
                     }
-                    if ($j != $x) {
+                    
                         if (canBe($j, $y, $i)) {
                             $anotherCanBeNumber = true;
                             break;
@@ -186,7 +217,7 @@
 
                 for ($k = -2; $k <= 0; $k++) {
                     for ($l = -2; $l <= 0; $l++) {
-                        if (!($xpos + $k == 0 && $ypos + $l == 0)) {
+                        
                             if (canBe($x + $xpos + $k, $y + $ypos + $l, $i)) {
                                 $anotherCanBeNumber = true;
                                 break;
