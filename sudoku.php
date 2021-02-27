@@ -116,7 +116,7 @@
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
                $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-                $solvable = canSolve();
+                $solvable = canSolve($_SESSION['guessgrid']);
                 echo "Removed " . $x . ", " . $y . "<br />";
             }
         }
@@ -153,15 +153,24 @@
         }
     }
 
-    function canSolve() {
+    function canSolve($guessGrid) {
+        $count = 0;
+        for ($i = 0; $i < 9; $i++) {
+            for ($j = 0; $j < 9; $j++) {
+
+                if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
+                    $count++;
+            }
+        }
+        if ($count == 81)
+            return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-                if (solveHelp($i, $j, $_SESSION['guessgrid'])) {
-                    echo "canSolve at " . $i . ", " . $j . "<br />";
+                if (solveHelp($i, $j, $guessGrid)) {
                     return true;
                 }
-             }
+            }
         }
         return false;
     }
@@ -196,8 +205,10 @@
             if ($temp == true)
                 $count++;
         }
-        if ($count == 1)
-            return true;
+        if ($count == 1) {
+            $guessGrid[$x][$y] = array_search(true, $canBe);
+            return canSolve($guessGrid);
+        }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
             if ($canBe[$i]) {
@@ -228,8 +239,8 @@
                         break;
                 }
                 if (!$anotherCanBeNumber) {
-                    return true;
-                    
+                    $guessGrid[$x][$y] = $i;
+                    return canSolve($guessGrid);
                 }
                 
             }
