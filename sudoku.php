@@ -157,7 +157,7 @@
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-                if (solveHelp($i, $j)) {
+                if (solveHelp($i, $j, $_SESSION['guessgrid'])) {
                     echo "canSolve at " . $i . ", " . $j . "<br />";
                     return true;
                 }
@@ -166,30 +166,28 @@
         return false;
     }
 
-    function solveHelp($x, $y) {
-        if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) //Can't solve with an already given number!
+    function solveHelp($x, $y, $guessGrid) {
+        if ($guessGrid[$x][$y] == $_SESSION['fullgrid'][$x][$y]) //Can't solve with an already given number!
             return false;
         $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
         for ($i = 0; $i < 9; $i++) {
             if ($i != $y) {
-                if (is_int($_SESSION['guessgrid'][$x][$i]))
-                    $canBe[$_SESSION['guessgrid'][$x][$i]] = false;
+                if (is_int($guessGrid[$x][$i]))
+                    $canBe[$guessGrid[$x][$i]] = false;
             }
             if ($j != $x) {
-                if (is_int($_SESSION['guessgrid'][$i][$y]))
-                    $canBe[$_SESSION['guessgrid'][$i][$y]] = false;
+                if (is_int($guessGrid[$i][$y]))
+                    $canBe[$guessGrid[$i][$y]] = false;
             }
         }
-        echo "canBe before square: ";
-        print_r($canBe);
-        echo "<br />";
+
         $xpos = 2 - ($x % 3);
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
             for ($l = -2; $l <= 0; $l++) {
                 if (!($xpos + $k == 0 && $ypos + $l == 0)) {
-                    if (is_int($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]))
-                        $canBe[$_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l]] = false;
+                    if (is_int($guessGrid[$x + $xpos + $k][$y + $ypos + $l]))
+                        $canBe[$guessGrid[$x + $xpos + $k][$y + $ypos + $l]] = false;
                 }        
             }
         }
@@ -201,18 +199,17 @@
         if ($count == 1)
             return true;
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
-        /*for ($i = 1; $i <= 9; $i++) {
+        for ($i = 1; $i <= 9; $i++) {
             if ($canBe[$i]) {
                 $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
                     if ($j != $y) {
-                        if (canBe($x, $j, $i)) {
+                        if (canBe($x, $j, $i, $guessGrid)) {
                             $anotherCanBeNumber = true;
                             break;
                         }
-                    }
                     
-                        if (canBe($j, $y, $i)) {
+                        if (canBe($j, $y, $i, $guessGrid)) {
                             $anotherCanBeNumber = true;
                             break;
                         }
@@ -222,10 +219,9 @@
                 for ($k = -2; $k <= 0; $k++) {
                     for ($l = -2; $l <= 0; $l++) {
                         
-                            if (canBe($x + $xpos + $k, $y + $ypos + $l, $i)) {
-                                $anotherCanBeNumber = true;
-                                break;
-                            }
+                        if (canBe($x + $xpos + $k, $y + $ypos + $l, $i, $guessGrid)) {
+                            $anotherCanBeNumber = true;
+                            break;
                         }
                     }
                     if ($anotherCanBeNumber)
@@ -237,22 +233,22 @@
                 }
                 
             }
-        }*/
+        }
         return false;
     }
 
-    function canBe($x, $y, $num) {
+    function canBe($x, $y, $num, $guessGrid) {
         for ($i = 0; $i < 9; $i++) {
-            if ($_SESSION['guessgrid'][$x][$i] == $num)
+            if ($guessGrid[$x][$i] == $num)
                 return false;
-            if ($_SESSION['guessgrid'][$i][$y] == $num)
+            if ($guessGrid[$i][$y] == $num)
                 return false;
         }
         $xpos = 2 - ($x % 3);
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
             for ($l = -2; $l <= 0; $l++) {
-                if ($_SESSION['guessgrid'][$x + $xpos + $k][$y + $ypos + $l] == $num)
+                if ($guessGrid[$x + $xpos + $k][$y + $ypos + $l] == $num)
                     return false;
             }
         }
