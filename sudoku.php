@@ -154,10 +154,11 @@
     }
 
     function canSolve() {
+        // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
                 if (solveHelp($i, $j)) {
-                    echo "Can solve at " . $i . ", " . $j . "<br />";
+                    echo "canSolve at " . $i . ", " . $j . "<br />";
                     return true;
                 }
              }
@@ -179,6 +180,9 @@
                     $canBe[$_SESSION['guessgrid'][$i][$y]] = false;
             }
         }
+        echo "canBe before square: ";
+        print_r($canBe);
+        echo "<br />";
         $xpos = 2 - ($x % 3);
         $ypos = 2 - ($y % 3);
         for ($k = -2; $k <= 0; $k++) {
