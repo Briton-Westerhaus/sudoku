@@ -115,31 +115,11 @@
             $x = rand(0, 8);
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
-               $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-                $solvable = canSolve($_SESSION['guessgrid']);
+                $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
+                $solvable = canSolve($_SESSION['guessgrid'], $x, $y);
                 echo "Removed " . $x . ", " . $y . "<br />";
             }
         }
-        echo '<table><tbody>';
-        for ($i = 0; $i < 3; $i++) {
-            echo "<tr>";
-            for ($j = 0; $j < 3; $j++) {
-                echo '<td><table><tbody>';
-                for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
-                    echo "<tr>";
-                    for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-                        if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
-                        echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
-                        else
-                            echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
-                    }
-                    echo "</tr>";
-                }
-                echo '</tbody></table></td>';
-            }
-            echo "</tr>";
-        }
-        echo "</tbody></table>";
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         for ($i = 0; $i < $difficulty; $i++) {
             $x = rand(0, 8);
@@ -153,15 +133,22 @@
         }
     }
 
-    function canSolve($guessGrid) {
+    function canSolve($guessGrid, $hintX = null, $hinty = null) {
+        if (!$hintX && !$hintY) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
+            echo "Trying canSolve with hint<br />";
+            if (solveHelp($hintX, $hintY, $guessGrid)) {
+                echo "Solved canSolve with hint<br />";
+                return true;
+            }
+        }
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-
-                if ($_SESSION['guessgrid'][$i][$j] == $_SESSION['fullgrid'][$i][$j])
+                if ($guessGrid[$i][$j] == $_SESSION['fullgrid'][$i][$j])
                     $count++;
             }
         }
+        echo $count . "<br />";
         if ($count == 81)
             return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
@@ -184,7 +171,7 @@
                 if (is_int($guessGrid[$x][$i]))
                     $canBe[$guessGrid[$x][$i]] = false;
             }
-            if ($j != $x) {
+            if ($i != $x) {
                 if (is_int($guessGrid[$i][$y]))
                     $canBe[$guessGrid[$i][$y]] = false;
             }
@@ -219,7 +206,9 @@
                             $anotherCanBeNumber = true;
                             break;
                         }
-                    
+                    }
+
+                    if ($j != $x) {
                         if (canBe($j, $y, $i, $guessGrid)) {
                             $anotherCanBeNumber = true;
                             break;
