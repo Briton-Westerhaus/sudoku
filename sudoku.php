@@ -133,13 +133,10 @@
         }
     }
 
-    function canSolve($guessGrid, $hintX = null, $hinty = null) {
-        if (!$hintX && !$hintY) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
-            echo "Trying canSolve with hint<br />";
-            if (solveHelp($hintX, $hintY, $guessGrid)) {
-                echo "Solved canSolve with hint<br />";
+    function canSolve($guessGrid, $hintX = null, $hintY = null) {
+        if (is_numeric($hintX) && is_numeric($hintY)) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
+            if (solveHelp($hintX, $hintY, $guessGrid)) 
                 return true;
-            }
         }
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
@@ -193,6 +190,7 @@
                 $count++;
         }
         if ($count == 1) {
+            echo "We found the only solution is the number " . array_search(true, $canBe) . "<br />";
             $guessGrid[$x][$y] = array_search(true, $canBe);
             return canSolve($guessGrid);
         }
@@ -228,6 +226,7 @@
                         break;
                 }
                 if (!$anotherCanBeNumber) {
+                    echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
                     return canSolve($guessGrid);
                 }
