@@ -90,6 +90,7 @@
     }
 
     function removeSome($difficulty) {
+        $removeStack = [];
         echo '<table><tbody>';
         for ($i = 0; $i < 3; $i++) {
             echo "<tr>";
@@ -115,9 +116,10 @@
             $x = rand(0, 8);
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
+                echo "Removing " . $x . ", " . $y . "<br />";
+                $removeStack[] = [$x, $y];
                 $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-                $solvable = canSolve($_SESSION['guessgrid'], $x, $y);
-                echo "Removed " . $x . ", " . $y . "<br />";
+                $solvable = canSolve($_SESSION['guessgrid'], $removeStack);
             }
         }
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
@@ -133,9 +135,9 @@
         }
     }
 
-    function canSolve($guessGrid, $hintX = null, $hintY = null) {
-        if (is_numeric($hintX) && is_numeric($hintY)) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
-            if (solveHelp($hintX, $hintY, $guessGrid)) 
+    function canSolve($guessGrid, $removeStack) {
+        if (count($removeStack) > 0) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
+            if (solveHelp(end($removeStack)[0], end($removeStack)[1], $guessGrid, $removeStack)) 
                 return true;
         }
         $count = 0;
@@ -145,23 +147,22 @@
                     $count++;
             }
         }
-        echo $count . "<br />";
+        echo "count: " . $count . "<br />";
         if ($count == 81)
             return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
-                if (solveHelp($i, $j, $guessGrid)) {
+                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $guessGrid, $removeStack)) {
                     return true;
                 }
             }
         }
+        echo "Can not solve!<br />";  
         return false;
     }
 
-    function solveHelp($x, $y, $guessGrid) {
-        if ($guessGrid[$x][$y] == $_SESSION['fullgrid'][$x][$y]) //Can't solve with an already given number!
-            return false;
+    function solveHelp($x, $y, $guessGrid, $removeStack) {
         $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
         for ($i = 0; $i < 9; $i++) {
             if ($i != $y) {
@@ -190,9 +191,10 @@
                 $count++;
         }
         if ($count == 1) {
-            echo "We found the only solution is the number " . array_search(true, $canBe) . "<br />";
+            echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
             $guessGrid[$x][$y] = array_search(true, $canBe);
-            return canSolve($guessGrid);
+            array_pop($removeStack);
+            return canSolve($guessGrid, $removeStack);
         }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
@@ -228,7 +230,8 @@
                 if (!$anotherCanBeNumber) {
                     echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    return canSolve($guessGrid);
+                    array_pop($removeStack);
+                    return canSolve($guessGrid, $removeStack);
                 }
                 
             }
