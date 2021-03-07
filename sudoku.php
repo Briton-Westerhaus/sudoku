@@ -117,8 +117,12 @@
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
                 echo "Removing " . $x . ", " . $y . "<br />";
-                $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
                 $removeStack[] = [$x, $y];
+                echo "Remove Stack: ";
+                for ($i = 0; $i < count($removeStack); $i++) {
+                    echo $removeStack[$i][0] . ", " . $removeStack[$i][1] . "<br />";
+                }
+                $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
                 $solvable = canSolve($_SESSION['guessgrid'], $removeStack);
             }
         }
@@ -136,10 +140,6 @@
     }
 
     function canSolve($guessGrid, $removeStack) {
-        if (count($removeStack) > 0) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
-            if (solveHelp(end($removeStack)[0], end($removeStack)[1], $guessGrid, $removeStack)) 
-                return true;
-        }
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
@@ -148,6 +148,10 @@
             }
         }
         echo "count: " . $count . "<br />";
+        if (count($removeStack) > 0) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
+            if (solveHelp(end($removeStack)[0], end($removeStack)[1], $guessGrid, $removeStack)) 
+                return true;
+        }
         if ($count == 81)
             return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
@@ -159,6 +163,23 @@
             }
         }
         echo "Can not solve!<br />";  
+        echo '<table><tbody>';
+        for ($i = 0; $i < 3; $i++) {
+            echo "<tr>";
+            for ($j = 0; $j < 3; $j++) {
+                echo '<td><table><tbody>';
+                for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
+                    echo "<tr>";
+                    for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
+                        echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+                    }
+                    echo "</tr>";
+                }
+                echo '</tbody></table></td>';
+            }
+            echo "</tr>";
+        }
+        echo "</tbody></table>";
         return false;
     }
 
