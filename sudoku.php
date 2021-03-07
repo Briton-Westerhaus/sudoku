@@ -193,7 +193,6 @@
         if ($count == 1) {
             echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
             $guessGrid[$x][$y] = array_search(true, $canBe);
-            return true;
             array_pop($removeStack);
             return canSolve($guessGrid, $removeStack);
         }
@@ -213,7 +212,6 @@
                 if (!$anotherCanBeNumber) {
                     echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    return true;
                     array_pop($removeStack);
                     return canSolve($guessGrid, $removeStack);
                 }
@@ -231,7 +229,6 @@
                 if (!$anotherCanBeNumber) {
                     echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    return true;
                     array_pop($removeStack);
                     return canSolve($guessGrid, $removeStack);
                 }
@@ -250,7 +247,6 @@
                 if (!$anotherCanBeNumber) {
                     echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    return true;
                     array_pop($removeStack);
                     return canSolve($guessGrid, $removeStack);
                 }
