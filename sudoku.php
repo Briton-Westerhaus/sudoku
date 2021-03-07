@@ -199,42 +199,54 @@
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
             if ($canBe[$i]) {
-                $anotherCantBeNumber = false;
+                $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
                     if ($j != $y) {
                         if (canBe($x, $j, $i, $guessGrid)) {
-                            $anotherCantBeNumber = true;
+                            $anotherCanBeNumber = true;
                             break;
                         }
                     }
                 }
 
-                if (!$anotherCantBeNumber)
-                    break;
-
+                if (!$anotherCanBeNumber) {
+                    echo "We found no other can be numbers for " . $i . "<br />";;
+                    $guessGrid[$x][$y] = $i;
+                    return true;
+                    //array_pop($removeStack);
+                    //return canSolve($guessGrid, $removeStack);
+                }
+                
+                $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
                     if ($j != $x) {
                         if (canBe($j, $y, $i, $guessGrid)) {
-                            $anotherCantBeNumber = true;
+                            $anotherCanBeNumber = true;
                             break;
                         }
                     }
                 }
                 
-                if (!$anotherCantBeNumber)
-                    break;
+                if (!$anotherCanBeNumber) {
+                    echo "We found no other can be numbers for " . $i . "<br />";;
+                    $guessGrid[$x][$y] = $i;
+                    return true;
+                    //array_pop($removeStack);
+                    //return canSolve($guessGrid, $removeStack);
+                }
 
+                $anotherCanBeNumber = false;
                 for ($k = -2; $k <= 0; $k++) {
                     for ($l = -2; $l <= 0; $l++) {
                         
                         if (canBe($x + $xpos + $k, $y + $ypos + $l, $i, $guessGrid)) {
-                            $anotherCantBeNumber = true;
+                            $anotherCanBeNumber = true;
                             break;
                         }
                     }
                 }
                 
-                if ($anotherCantBeNumber) {
+                if (!$anotherCanBeNumber) {
                     echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
                     return true;
