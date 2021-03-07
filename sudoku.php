@@ -260,6 +260,9 @@
     }
 
     function canBe($x, $y, $num, $guessGrid) {
+        if ($guessGrid[$x][$y] == $_SESSION['fullgrid'][$x][$y]) // We don't check already solved squares.
+            return false;
+        
         for ($i = 0; $i < 9; $i++) {
             if ($guessGrid[$x][$i] == $num)
                 return false;
