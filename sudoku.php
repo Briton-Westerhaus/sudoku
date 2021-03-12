@@ -112,8 +112,7 @@
         }
         echo "</tbody></table>";
         $solvable = true;
-        $repeatCount = 0;
-        while ($solvable && $repeatCount < 100) {
+        while ($solvable) {
             $x = rand(0, 8);
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
@@ -124,14 +123,16 @@
                     echo $removeStack[$i][0] . ", " . $removeStack[$i][1] . "<br />";
                 }
                 $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-                if (!singleSolve($x, $y, $_SESSION['guessgrid'])) {
-                    $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
-                    array_pop($removeStack);
-                    $repeatCount++;
+                if (singleSolve($x, $y, $_SESSION['guessgrid'])) {
+                    // Nothing?
                 } else {
-                    $repeatCount = 0;
+                    if (canSolve($_SESSION['guessgrid'], $removeStack)) {
+                        // Nothing?
+                    } else {
+                        $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
+                        $solvable = false;
+                    }
                 }
-                $solvable = canSolve($_SESSION['guessgrid'], $removeStack);
             }
         }
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
