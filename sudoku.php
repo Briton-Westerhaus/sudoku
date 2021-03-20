@@ -112,7 +112,16 @@
         }
         echo "</tbody></table>";
         $solvable = true;
+        $checkedSolvable = [];
+        for ($x = 0; $x < 9; $x++) {
+            $checkedSolvable[$x] = [];
+            for ($y = 0; $y < 9; $y++) {
+                $checkedSolvable[$x][$y] = false;
+            }
+        }
+
         while ($solvable) {
+
             $x = rand(0, 8);
             $y = rand(0, 8);
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
@@ -123,6 +132,7 @@
                     echo $removeStack[$i][0] . ", " . $removeStack[$i][1] . "<br />";
                 }
                 $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
+                $checkedSolvable[$x][$y] = true;
                 if (singleSolve($x, $y, $_SESSION['guessgrid'])) {
                     echo "Can Single Solve<br />";
                     // Nothing?
@@ -132,7 +142,14 @@
                         // Nothing?
                     } else {
                         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
-                        $solvable = false;
+                        array_pop($removeStack);
+                    }
+                }
+                $solvable = false;
+                for ($x = 0; $x < 9; $x++) {
+                    for ($y = 0; $y < 9; $y++) {
+                        if (!$checkedSolvable[$x][$y])
+                            $solvable = true;
                     }
                 }
             }
