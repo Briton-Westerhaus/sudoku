@@ -27,7 +27,7 @@
 						makeGrid();
 					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
-					} else if ($_POST['submitButton'] == "Get a new Sudoku!" || !isSet($_POST['submitButton'])) {
+					} else if (!isSet($_POST['submitButton']) || $_POST['submitButton'] == "Get a new Sudoku!") {
 						unset($_SESSION['difficulty']);
 						$_SESSION['checks'] = 0;
 						$_SESSION['incorrects'] = 0;
