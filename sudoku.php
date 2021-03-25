@@ -97,8 +97,7 @@
             }
         }
         shuffle($squaresList);
-        echo removeSomeHelper($_SESSION['guessgrid'], $squaresList);
-        /*$removeStack = [];
+        $removeStack = [];
         echo '<table><tbody>';
         for ($i = 0; $i < 3; $i++) {
             echo "<tr>";
@@ -127,40 +126,54 @@
                 $checkedSolvable[$x][$y] = false;
             }
         }
+        for ($i = 0; $i < 100; $i++) {
+            while ($solvable) {
 
-        while ($solvable) {
-
-            $x = rand(0, 8);
-            $y = rand(0, 8);
-            if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
-                echo "Removing " . $x . ", " . $y . "<br />";
-                $removeStack[] = [$x, $y];
-                echo "Remove Stack: ";
-                for ($i = 0; $i < count($removeStack); $i++) {
-                    echo $removeStack[$i][0] . ", " . $removeStack[$i][1] . "<br />";
-                }
-                $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
-                $checkedSolvable[$x][$y] = true;
-                if (singleSolve($x, $y, $_SESSION['guessgrid'])) {
-                    echo "Can Single Solve<br />";
-                    // Nothing?
-                } else {
-                    //if (canSolve($_SESSION['guessgrid'], $removeStack)) {
-                    //    echo "Can Solve<br />";
-                    //    // Nothing?
-                    //} else {
-                        $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
-                        array_pop($removeStack);
+                $x = rand(0, 8);
+                $y = rand(0, 8);
+                if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
+                    //echo "Removing " . $x . ", " . $y . "<br />";
+                    $removeStack[] = [$x, $y];
+                    //echo "Remove Stack: ";
+                    //for ($i = 0; $i < count($removeStack); $i++) {
+                    //    echo $removeStack[$i][0] . ", " . $removeStack[$i][1] . "<br />";
                     //}
-                }
-                $solvable = false;
-                for ($x = 0; $x < 9; $x++) {
-                    for ($y = 0; $y < 9; $y++) {
-                        if (!$checkedSolvable[$x][$y])
-                            $solvable = true;
+                    $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
+                    $checkedSolvable[$x][$y] = true;
+                    if (singleSolve($x, $y, $_SESSION['guessgrid'])) {
+                        //echo "Can Single Solve<br />";
+                        // Nothing?
+                    } else {
+                        //if (canSolve($_SESSION['guessgrid'], $removeStack)) {
+                        //    echo "Can Solve<br />";
+                        //    // Nothing?
+                        //} else {
+                            $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
+                            array_pop($removeStack);
+                        //}
+                    }
+                    $solvable = false;
+                    for ($x = 0; $x < 9; $x++) {
+                        for ($y = 0; $y < 9; $y++) {
+                            if (!$checkedSolvable[$x][$y])
+                                $solvable = true;
+                        }
                     }
                 }
             }
+            $count = 0;
+            for ($j = 0; $j < 9; $j++) {
+                for ($k = 0; $k < 9; $k++) {
+    
+                    if ($_SESSION['guessgrid'][$j][$k] == $_SESSION['fullgrid'][$j][$k])
+                        $count++;
+                }
+            }
+            echo "Count " . $i . ": " . $count . "<br />";
+            $_SESSION['guessgrid'] = $_SESSION['fullgrid'];
+            $solvable = true;
+            $checkedSolvable = [];
+            $removeStack = [];
         }
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         for ($i = 0; $i < $difficulty; $i++) {
@@ -172,44 +185,7 @@
             }
             echo "Added " . $x . ", " . $y . "<br />";
             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
-        }*/
-    }
-
-    function removeSomeHelper($guessGrid, $squaresList) {
-        // This should recurse fine, but it also needs to return the order of removing things in order to remove the most squares.
-        if (count($squaresList) == 1) {
-            $coords = explode(',', $squaresList[0]);
-            $x = $coords[0];
-            $y = $coords[1];
-            $guessGrid[$x][$y] = '';
-            if (singleSolve($x, $y, $guessGrid)) {
-                return $squaresList;
-            } else {
-                return [];
-            }
         }
-        $workingGuessGrid = $guessGrid;
-        $longestList = [];
-        $workingList = [];
-        for ($i = 0; $i < count($squaresList); $i++) {
-            $square = $squaresList[$i];
-            $workingSquaresList = $squaresList;
-            array_splice($workingSquaresList, $i, 1);
-            $coords = explode(',', $square);
-            $x = $coords[0];
-            $y = $coords[1];
-            $workingGuessGrid[$x][$y] = '';
-            if (singleSolve($x, $y, $workingGuessGrid)) {
-                $workingList = removeSomeHelper($workingGuessGrid, $workingSquaresList);
-            } else {
-                $workingList = removeSomeHelper($guessGrid, $workingSquaresList);
-            }
-            if (count($workingList) > count($longestList)) {
-                $longestList = $workingList;
-            }
-            $workingGuessGrid[$x][$y] = $_SESSION['fullgrid'][$x][$y];
-        }
-        return $longestList;
     }
 
     function canSolve($guessGrid, $removeStack) {
