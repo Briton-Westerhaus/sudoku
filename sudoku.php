@@ -188,6 +188,108 @@
         }
     }
 
+    function solvePriority($guessGrid, $x, $y) {
+        $priority = 0;
+        $number = $_SESSION['fullgrid'][$x][$y];
+        $numberCount = 0;
+        for ($i = 0; $i < 9; $i++) {
+            for ($j = 0; $j < 9; $j++) {
+                if ($guessGrid[$i][$j] == $number)
+                    $numberCount++;
+            }
+        }
+
+        $priority += $numberCount; // Don't know if this number makes sense.
+
+        // Check y direction
+        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
+        for ($i = 0; $i < 9; $i++) {
+            if ($i != $y) {
+                if (is_int($guessGrid[$x][$i]))
+                    $canBe[$guessGrid[$x][$i]] = false;
+            }
+        }
+        $count = 0;
+        foreach ($canBe as $temp) {
+            if ($temp == true)
+                $count++;
+        }
+        if ($count == 1) {
+            $priority += 10;
+        }
+        
+        // Check x direction
+        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
+        for ($i = 0; $i < 9; $i++) {
+            if ($i != $x) {
+                if (is_int($guessGrid[$i][$y]))
+                    $canBe[$guessGrid[$i][$y]] = false;
+            }
+        }
+        $count = 0;
+        foreach ($canBe as $temp) {
+            if ($temp == true)
+                $count++;
+        }
+        if ($count == 1) {
+            $priority += 10;
+        }
+
+        // Check inside square
+        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
+        $xpos = 2 - ($x % 3);
+        $ypos = 2 - ($y % 3);
+        for ($k = -2; $k <= 0; $k++) {
+            for ($l = -2; $l <= 0; $l++) {
+                if (!($xpos + $k == 0 && $ypos + $l == 0)) {
+                    if (is_int($guessGrid[$x + $xpos + $k][$y + $ypos + $l]))
+                        $canBe[$guessGrid[$x + $xpos + $k][$y + $ypos + $l]] = false;
+                }        
+            }
+        }
+        $count = 0;
+        foreach ($canBe as $temp) {
+            if ($temp == true)
+                $count++;
+        }
+        if ($count == 1) {
+            $priority += 10;
+        }
+
+        // Check for actual solvability
+        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
+        for ($i = 0; $i < 9; $i++) {
+            if ($i != $y) {
+                if (is_int($guessGrid[$x][$i]))
+                    $canBe[$guessGrid[$x][$i]] = false;
+            }
+            if ($i != $x) {
+                if (is_int($guessGrid[$i][$y]))
+                    $canBe[$guessGrid[$i][$y]] = false;
+            }
+        }
+
+        $xpos = 2 - ($x % 3);
+        $ypos = 2 - ($y % 3);
+        for ($k = -2; $k <= 0; $k++) {
+            for ($l = -2; $l <= 0; $l++) {
+                if (!($xpos + $k == 0 && $ypos + $l == 0)) {
+                    if (is_int($guessGrid[$x + $xpos + $k][$y + $ypos + $l]))
+                        $canBe[$guessGrid[$x + $xpos + $k][$y + $ypos + $l]] = false;
+                }        
+            }
+        }
+        $count = 0;
+        foreach ($canBe as $temp) {
+            if ($temp == true)
+                $count++;
+        }
+        if ($count == 1) {
+            $priority +=5;
+        }
+        return $priority;
+    }
+
     function canSolve($guessGrid, $removeStack) {
         $count = 0;
         for ($i = 0; $i < 9; $i++) {
