@@ -90,13 +90,6 @@
     }
 
     function removeSome($difficulty) {
-        $squaresList = [];
-        for ($x = 0; $x < 9; $x++) {
-            for ($y = 0; $y < 9; $y++) {
-                $squaresList[] = $x . ',' . $y;
-            }
-        }
-        shuffle($squaresList);
         $removeStack = [];
         echo '<table><tbody>';
         for ($i = 0; $i < 3; $i++) {
@@ -128,9 +121,46 @@
         }
         for ($i = 0; $i < 100; $i++) {
             while ($solvable) {
-
-                $x = rand(0, 8);
-                $y = rand(0, 8);
+                $highestPriority = 0;
+                for ($x = 0; $x < 9; $x++) {
+                    for ($y = 0; $y < 9; $y++) {
+                        if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
+                            $priority = solvePriority($_SESSION['guessgrid'], $x, $y);
+                            $rand = 0;
+                            if ($priority == $highestPriority)
+                                $rand = rand(0, 10);
+                            if ($priority > $highestPriority || $rand > 5) {
+                                $highestPriority = $priority;
+                                $highestX = $x;
+                                $highestY = $y;
+                            }
+                        }
+                    }
+                }
+                //$x = rand(0, 8);
+                //$y = rand(0, 8);
+                $x = $highestX;
+                $y = $highestY;
+                echo "Highest Priority - " . $highestX . ", " . $highestY . ": " .  $highestPriority . "<br />";
+                if ($highestPriority < 10) {
+                    echo '<table><tbody>';
+                    for ($i = 0; $i < 3; $i++) {
+                        echo "<tr>";
+                        for ($j = 0; $j < 3; $j++) {
+                            echo '<td><table><tbody>';
+                            for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
+                                echo "<tr>";
+                                for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
+                                    echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+                                }
+                                echo "</tr>";
+                            }
+                            echo '</tbody></table></td>';
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</tbody></table>";
+                }
                 if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
                     //echo "Removing " . $x . ", " . $y . "<br />";
                     $removeStack[] = [$x, $y];
@@ -155,9 +185,13 @@
                     $solvable = false;
                     for ($x = 0; $x < 9; $x++) {
                         for ($y = 0; $y < 9; $y++) {
-                            if (!$checkedSolvable[$x][$y])
+                            if (!$checkedSolvable[$x][$y]) {
                                 $solvable = true;
+                                break;
+                            }
                         }
+                        if ($solvable)
+                            break;
                     }
                 }
             }
@@ -285,7 +319,7 @@
                 $count++;
         }
         if ($count == 1) {
-            $priority +=5;
+            $priority += 5;
         }
         return $priority;
     }
