@@ -201,8 +201,9 @@
             return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
         for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 9; $j++) {
-                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $guessGrid, $removeStack)) {
+            for ($j = 0; $j < 9; $j++) { 
+                $newGuessGrid = $guessGrid;
+                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, $removeStack)) {
                     return true;
                 }
             }
@@ -346,8 +347,7 @@
             //echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
             $guessGrid[$x][$y] = array_search(true, $canBe);
             //array_pop($removeStack);
-            //return canSolve($guessGrid, $removeStack);
-            return false;
+            return canSolve($guessGrid, []);
         }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
@@ -366,8 +366,7 @@
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
-                    //return canSolve($guessGrid, $removeStack);
-                    return false;
+                    return canSolve($guessGrid, []);
                 }
                 
                 $anotherCanBeNumber = false;
@@ -384,8 +383,7 @@
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
-                    //return canSolve($guessGrid, $removeStack);
-                    return false;
+                    return canSolve($guessGrid, []);
                 }
 
                 $anotherCanBeNumber = false;
@@ -403,8 +401,7 @@
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
-                    //return canSolve($guessGrid, $removeStack);
-                    return false;
+                    return canSolve($guessGrid, []);
                 }
                 
             }
