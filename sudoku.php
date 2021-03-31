@@ -120,47 +120,10 @@
             }
         }
         for ($i = 0; $i < 100; $i++) {
+            $_SESSION['guessgrid'] = $_SESSION['fullgrid'];
             while ($solvable) {
-                $highestPriority = 0;
-                for ($x = 0; $x < 9; $x++) {
-                    for ($y = 0; $y < 9; $y++) {
-                        if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
-                            $priority = solvePriority($_SESSION['guessgrid'], $x, $y);
-                            $rand = 0;
-                            if ($priority == $highestPriority)
-                                $rand = rand(0, 10);
-                            if ($priority > $highestPriority || $rand > 5) {
-                                $highestPriority = $priority;
-                                $highestX = $x;
-                                $highestY = $y;
-                            }
-                        }
-                    }
-                }
-                //$x = rand(0, 8);
-                //$y = rand(0, 8);
-                $x = $highestX;
-                $y = $highestY;
-                echo "Highest Priority - " . $highestX . ", " . $highestY . ": " .  $highestPriority . "<br />";
-                if ($highestPriority < 10) {
-                    echo '<table><tbody>';
-                    for ($i = 0; $i < 3; $i++) {
-                        echo "<tr>";
-                        for ($j = 0; $j < 3; $j++) {
-                            echo '<td><table><tbody>';
-                            for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
-                                echo "<tr>";
-                                for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-                                    echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
-                                }
-                                echo "</tr>";
-                            }
-                            echo '</tbody></table></td>';
-                        }
-                        echo "</tr>";
-                    }
-                    echo "</tbody></table>";
-                }
+                $x = rand(0, 8);
+                $y = rand(0, 8);
                 if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
                     //echo "Removing " . $x . ", " . $y . "<br />";
                     $removeStack[] = [$x, $y];
@@ -174,13 +137,13 @@
                         //echo "Can Single Solve<br />";
                         // Nothing?
                     } else {
-                        //if (canSolve($_SESSION['guessgrid'], $removeStack)) {
-                        //    echo "Can Solve<br />";
-                        //    // Nothing?
-                        //} else {
+                        if (canSolve($_SESSION['guessgrid'], $removeStack)) {
+                            echo "Can Solve<br />";
+                            // Nothing?
+                        } else {
                             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
                             array_pop($removeStack);
-                        //}
+                        }
                     }
                     $solvable = false;
                     for ($x = 0; $x < 9; $x++) {
@@ -204,7 +167,6 @@
                 }
             }
             echo "Count " . $i . ": " . $count . "<br />";
-            $_SESSION['guessgrid'] = $_SESSION['fullgrid'];
             $solvable = true;
             $checkedSolvable = [];
             $removeStack = [];
@@ -220,108 +182,6 @@
             echo "Added " . $x . ", " . $y . "<br />";
             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         }
-    }
-
-    function solvePriority($guessGrid, $x, $y) {
-        $priority = 0;
-        $number = $_SESSION['fullgrid'][$x][$y];
-        $numberCount = 0;
-        for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 9; $j++) {
-                if ($guessGrid[$i][$j] == $number)
-                    $numberCount++;
-            }
-        }
-
-        $priority += $numberCount; // Don't know if this number makes sense.
-
-        // Check y direction
-        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
-        for ($i = 0; $i < 9; $i++) {
-            if ($i != $y) {
-                if (is_int($guessGrid[$x][$i]))
-                    $canBe[$guessGrid[$x][$i]] = false;
-            }
-        }
-        $count = 0;
-        foreach ($canBe as $temp) {
-            if ($temp == true)
-                $count++;
-        }
-        if ($count == 1) {
-            $priority += 10;
-        }
-        
-        // Check x direction
-        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
-        for ($i = 0; $i < 9; $i++) {
-            if ($i != $x) {
-                if (is_int($guessGrid[$i][$y]))
-                    $canBe[$guessGrid[$i][$y]] = false;
-            }
-        }
-        $count = 0;
-        foreach ($canBe as $temp) {
-            if ($temp == true)
-                $count++;
-        }
-        if ($count == 1) {
-            $priority += 10;
-        }
-
-        // Check inside square
-        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
-        $xpos = 2 - ($x % 3);
-        $ypos = 2 - ($y % 3);
-        for ($k = -2; $k <= 0; $k++) {
-            for ($l = -2; $l <= 0; $l++) {
-                if (!($xpos + $k == 0 && $ypos + $l == 0)) {
-                    if (is_int($guessGrid[$x + $xpos + $k][$y + $ypos + $l]))
-                        $canBe[$guessGrid[$x + $xpos + $k][$y + $ypos + $l]] = false;
-                }        
-            }
-        }
-        $count = 0;
-        foreach ($canBe as $temp) {
-            if ($temp == true)
-                $count++;
-        }
-        if ($count == 1) {
-            $priority += 10;
-        }
-
-        // Check for actual solvability
-        $canBe = array(1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true);
-        for ($i = 0; $i < 9; $i++) {
-            if ($i != $y) {
-                if (is_int($guessGrid[$x][$i]))
-                    $canBe[$guessGrid[$x][$i]] = false;
-            }
-            if ($i != $x) {
-                if (is_int($guessGrid[$i][$y]))
-                    $canBe[$guessGrid[$i][$y]] = false;
-            }
-        }
-
-        $xpos = 2 - ($x % 3);
-        $ypos = 2 - ($y % 3);
-        for ($k = -2; $k <= 0; $k++) {
-            for ($l = -2; $l <= 0; $l++) {
-                if (!($xpos + $k == 0 && $ypos + $l == 0)) {
-                    if (is_int($guessGrid[$x + $xpos + $k][$y + $ypos + $l]))
-                        $canBe[$guessGrid[$x + $xpos + $k][$y + $ypos + $l]] = false;
-                }        
-            }
-        }
-        $count = 0;
-        foreach ($canBe as $temp) {
-            if ($temp == true)
-                $count++;
-        }
-        if ($count == 1) {
-            $priority += 5;
-        }
-        return $priority;
     }
 
     function canSolve($guessGrid, $removeStack) {
@@ -485,8 +345,9 @@
         if ($count == 1) {
             //echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
             $guessGrid[$x][$y] = array_search(true, $canBe);
-            array_pop($removeStack);
-            return canSolve($guessGrid, $removeStack);
+            //array_pop($removeStack);
+            //return canSolve($guessGrid, $removeStack);
+            return false;
         }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
@@ -504,8 +365,9 @@
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    array_pop($removeStack);
-                    return canSolve($guessGrid, $removeStack);
+                    //array_pop($removeStack);
+                    //return canSolve($guessGrid, $removeStack);
+                    return false;
                 }
                 
                 $anotherCanBeNumber = false;
@@ -521,8 +383,9 @@
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    array_pop($removeStack);
-                    return canSolve($guessGrid, $removeStack);
+                    //array_pop($removeStack);
+                    //return canSolve($guessGrid, $removeStack);
+                    return false;
                 }
 
                 $anotherCanBeNumber = false;
@@ -539,8 +402,9 @@
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";;
                     $guessGrid[$x][$y] = $i;
-                    array_pop($removeStack);
-                    return canSolve($guessGrid, $removeStack);
+                    //array_pop($removeStack);
+                    //return canSolve($guessGrid, $removeStack);
+                    return false;
                 }
                 
             }
