@@ -137,6 +137,7 @@
                         //echo "Can Single Solve<br />";
                         // Nothing?
                     } else {
+                        // TODO: Clone remove stack
                         if (canSolve($_SESSION['guessgrid'], $removeStack)) {
                             echo "Can Solve<br />";
                             // Nothing?
@@ -203,7 +204,8 @@
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) { 
                 $newGuessGrid = $guessGrid;
-                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, $removeStack)) {
+                // TODO: Clone remove stack
+                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, $removeStack)) {//solveHelp($i, $j, $newGuessGrid, $removeStack)) {
                     return true;
                 }
             }
@@ -363,7 +365,7 @@
                 }
 
                 if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";;
+                    //echo "We found no other can be numbers for " . $i . "<br />";
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
                     return canSolve($guessGrid, []);
@@ -380,7 +382,7 @@
                 }
                 
                 if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";;
+                    //echo "We found no other can be numbers for " . $i . "<br />";
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
                     return canSolve($guessGrid, []);
@@ -398,7 +400,7 @@
                 }
                 
                 if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";;
+                    //echo "We found no other can be numbers for " . $i . "<br />";
                     $guessGrid[$x][$y] = $i;
                     //array_pop($removeStack);
                     return canSolve($guessGrid, []);
