@@ -5,7 +5,7 @@
         for ($j = 0; $j < 9; $j++) {
             for ($k = 0; $k < 9; $k++) {
 
-                if ($guessGrid == $_SESSION['fullgrid'][$j][$k])
+                if ($guessGrid[$j][$k] == $_SESSION['fullgrid'][$j][$k])
                     $count++;
             }
         }
@@ -203,7 +203,7 @@
             for ($j = 0; $j < 9; $j++) { 
                 $newGuessGrid = $guessGrid;
                 // TODO: Clone remove stack
-                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, $removeStack)) {//solveHelp($i, $j, $newGuessGrid, $removeStack)) {
+                if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, [])) {//solveHelp($i, $j, $newGuessGrid, $removeStack)) {
                     return true;
                 }
             }
@@ -243,7 +243,7 @@
         }
         if ($count == 1) {
             //echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
-            return array_search(true, $canBe);
+            return true;
         }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
         for ($i = 1; $i <= 9; $i++) {
@@ -260,7 +260,7 @@
 
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";
-                    return $i;
+                    return true;
                 }
                 
                 $anotherCanBeNumber = false;
@@ -275,7 +275,7 @@
                 
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";
-                    return $i;
+                    return true;
                 }
 
                 $anotherCanBeNumber = false;
@@ -291,7 +291,7 @@
                 
                 if (!$anotherCanBeNumber) {
                     //echo "We found no other can be numbers for " . $i . "<br />";
-                    return $i;
+                    return true;
                 }
                 
             }
