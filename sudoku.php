@@ -204,6 +204,7 @@
                 $newGuessGrid = $guessGrid;
                 // TODO: Clone remove stack
                 if ($guessGrid[$i][$j] != $_SESSION['fullgrid'][$i][$j] && solveHelp($i, $j, $newGuessGrid, [])) {//solveHelp($i, $j, $newGuessGrid, $removeStack)) {
+                    // Something bad with chaining back the false from canSolve below?
                     return true;
                 }
             }
