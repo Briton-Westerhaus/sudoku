@@ -167,6 +167,8 @@
                             break;
                     }
                 }
+                $count = getCount($_SESSION['guessgrid']);
+                echo "Count during removing: " . $count . "<br />";
             }
             $count = getCount($_SESSION['guessgrid']);
             echo "Count " . $i . ": " . $count . "<br />";
