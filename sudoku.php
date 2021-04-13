@@ -195,8 +195,6 @@
         if (count($removeStack) > 0) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
             if (singleSolve(end($removeStack)[0], end($removeStack)[1], $guessGrid)) 
                 return true;
-            else
-                echo "We want to break here.";
         } 
         if ($count == 81)
             return true;
