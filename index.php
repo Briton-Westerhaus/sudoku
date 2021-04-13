@@ -17,13 +17,13 @@
 			<form action="index.php" method="post" autocomplete="off" id="TheForm">
 				<?php
 					if ($_POST['submitButton'] == "Easy") {
-						$_SESSION['difficulty'] = 20;
-						makeGrid();
-					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 12;
 						makeGrid();
+					} else if ($_POST['submitButton'] == "Medium") {
+						$_SESSION['difficulty'] = 6;
+						makeGrid();
 					} else if ($_POST['submitButton'] == "Hard") {
-						$_SESSION['difficulty'] = 5;
+						$_SESSION['difficulty'] = 0;
 						makeGrid();
 					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
