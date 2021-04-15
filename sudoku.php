@@ -12,26 +12,6 @@
         return $count;
     }
 
-    function printGrid($grid) { // For debugging
-        echo '<table><tbody>';
-        for ($i = 0; $i < 3; $i++) {
-            echo "<tr>";
-            for ($j = 0; $j < 3; $j++) {
-                echo '<td><table><tbody>';
-                for ($k = 3 * $i; $k < 3 * $i + 3; $k++) {
-                    echo "<tr>";
-                    for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
-                        echo '<td><span>' . $grid[$k][$l] . '</span></td>';
-                    }
-                    echo "</tr>";
-                }
-                echo '</tbody></table></td>';
-            }
-            echo "</tr>";
-        }
-        echo "</tbody></table>";
-    }
-
     function makeGrid() {
         unset($_SESSION['fullgrid']);
         $_SESSION['fullgrid'] = array();
@@ -162,11 +142,11 @@
     }
 
     function canSolve($guessGrid, $x = -1, $y = -1) {
-        $count = getCount($guessGrid);
         if ($x > -1 && $y > -1) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
             if (solveHelp($x, $y, $guessGrid)) 
                 return true;
         } 
+        $count = getCount($guessGrid);
         if ($count == 81)
             return true;
         // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
@@ -212,7 +192,6 @@
                 $count++;
         }
         if ($count == 1) {
-            //echo "We found the only solution for " . $x . ", " . $y . " is the number " . array_search(true, $canBe) . "<br />";
             return true;
         }
         // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
@@ -228,10 +207,8 @@
                     }
                 }
 
-                if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";
+                if (!$anotherCanBeNumber)
                     return true;
-                }
                 
                 $anotherCanBeNumber = false;
                 for ($j = 0; $j < 9; $j++) {
@@ -243,10 +220,8 @@
                     }
                 }
                 
-                if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";
+                if (!$anotherCanBeNumber)
                     return true;
-                }
 
                 $anotherCanBeNumber = false;
                 for ($k = -2; $k <= 0; $k++) {
@@ -259,10 +234,8 @@
                     }
                 }
                 
-                if (!$anotherCanBeNumber) {
-                    //echo "We found no other can be numbers for " . $i . "<br />";
+                if (!$anotherCanBeNumber) 
                     return true;
-                }
                 
             }
         }
