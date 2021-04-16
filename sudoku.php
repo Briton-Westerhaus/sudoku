@@ -26,7 +26,7 @@
                 $_SESSION['guessgrid'][$i][$j] = $_SESSION['fullgrid'][$i][$j];
             }
         }
-        removeSome($_SESSION['difficulty']);
+        removeSome();
     }
 
     function recurse($x, $y) {
@@ -93,7 +93,7 @@
         return array('boolean' => true, 'value' => $_SESSION['fullgrid'][$x][$y]);
     }
 
-    function removeSome($difficulty) {
+    function removeSome() {
 
         $solvable = true;
         $checkedSolvable = [];
@@ -130,6 +130,9 @@
         }
 
         $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
+    }
+
+    function addSome($difficulty) {
         for ($i = 0; $i < $difficulty; $i++) {
             $x = rand(0, 8);
             $y = rand(0, 8);

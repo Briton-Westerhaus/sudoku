@@ -18,13 +18,13 @@
 				<?php
 					if ($_POST['submitButton'] == "Easy") {
 						$_SESSION['difficulty'] = 12;
-						makeGrid();
+						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 6;
-						makeGrid();
+						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Hard") {
 						$_SESSION['difficulty'] = 0;
-						makeGrid();
+						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
 					} else if (!isSet($_POST['submitButton']) || $_POST['submitButton'] == "Get a new Sudoku!") {
@@ -35,6 +35,9 @@
 						echo '<center><input type="submit" name="submitButton" value="Easy" />';
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
+						ob_flush();
+						flush();
+						makeGrid();
 					}
 
 					if (isSet($_SESSION['difficulty'])) {
