@@ -110,9 +110,7 @@
             if ($_SESSION['guessgrid'][$x][$y] == $_SESSION['fullgrid'][$x][$y]) {
                 $_SESSION['guessgrid'][$x][$y] = '<input type="text" maxlength="1" id="' . $x . ':' . $y . '" name="' . $x . ':' . $y . '" onselect="selectInput(' . $x . ', ' . $y . ')" onclick="selectInput(' . $x . ', ' . $y . ')" oninput="inputChanged(this)" />';
                 $checkedSolvable[$x][$y] = true;
-                if (canSolve($_SESSION['guessgrid'], $x, $y)) {
-                    // Nothing?
-                } else {
+                if (!canSolve($_SESSION['guessgrid'], $x, $y)) {
                     $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
                 }
                 $solvable = false;
