@@ -183,12 +183,12 @@ function solveHelp(x, y, guessGrid) {
         return true;
     }
     // Here we need to check for other solving methods, i.e. no other squares in the row/column/grid can be some number. 
-    for (let i = 0; i < 9; i++) { // stopped here
+    for (let i = 0; i < 9; i++) {
         if (canBe[i]) {
             anotherCanBeNumber = false;
-            for (j = 0; j < 9; j++) {
+            for (let j = 0; j < 9; j++) {
                 if (j != y) {
-                    if (canBe(x, j, i, guessGrid)) {
+                    if (canBeNumber(x, j, i + 1, guessGrid)) {
                         anotherCanBeNumber = true;
                         break;
                     }
@@ -201,7 +201,7 @@ function solveHelp(x, y, guessGrid) {
             anotherCanBeNumber = false;
             for (j = 0; j < 9; j++) {
                 if (j != x) {
-                    if (canBe(j, y, i, guessGrid)) {
+                    if (canBeNumber(j, y, i + 1, guessGrid)) {
                         anotherCanBeNumber = true;
                         break;
                     }
@@ -212,10 +212,10 @@ function solveHelp(x, y, guessGrid) {
                 return true;
 
             anotherCanBeNumber = false;
-            for (k = -2; k <= 0; k++) {
-                for (l = -2; l <= 0; l++) {
+            for (let k = -2; k <= 0; k++) {
+                for (let l = -2; l <= 0; l++) {
                     
-                    if (canBe(x + xpos + k, y + ypos + l, i, guessGrid)) {
+                    if (canBeNumber(x + xpos + k, y + ypos + l, i + 1, guessGrid)) {
                         anotherCanBeNumber = true;
                         break;
                     }
@@ -228,6 +228,27 @@ function solveHelp(x, y, guessGrid) {
         }
     }
     return false;
+}
+
+function canBeNumber(x, y, num, guessGrid) {
+    if (guessGrid[x][y] == fullGrid[x][y]) // We don't check already solved squares.
+        return false;
+    
+    for (let i = 0; i < 9; i++) {
+        if (guessGrid[x][i] == num)
+            return false;
+        if (guessGrid[i][y] == num)
+            return false;
+    }
+    let xpos = 2 - (x % 3);
+    let ypos = 2 - (y % 3);
+    for (let k = -2; k <= 0; k++) {
+        for (let l = -2; l <= 0; l++) {
+            if (guessGrid[x + xpos + k][y + ypos + l] == num)
+                return false;
+        }
+    }
+    return true;
 }
 
 fullGrid = [];
