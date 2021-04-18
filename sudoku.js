@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 let guessGrid;
 let fullGrid;
 
@@ -14,8 +16,10 @@ const getCount = function(guessGrid) {
 
 
 const recurse = function(x, y) {
-    numberExcluded = 0;
-    allowed = [true, true, true, true, true, true, true, true, true];
+    let numberExcluded = 0;
+    let allowed = [true, true, true, true, true, true, true, true, true];
+    let whichNumbers = [];
+
     for (k = 0; k < 9; k++) {
         if(allowed[fullGrid[k][y] - 1] != false){
             allowed[fullGrid[k][y] - 1] = false;
@@ -148,7 +152,7 @@ const canSolve = function(guessGrid, x = -1, y = -1) {
     return false;
 }
 
-function solveHelp(x, y, guessGrid) {
+const solveHelp = function(x, y, guessGrid) {
     let canBe = [true, true, true, true, true, true, true, true, true];
     for (let i = 0; i < 9; i++) {
         if (i != y) {
@@ -230,7 +234,7 @@ function solveHelp(x, y, guessGrid) {
     return false;
 }
 
-function canBeNumber(x, y, num, guessGrid) {
+const canBeNumber = function(x, y, num, guessGrid) {
     if (guessGrid[x][y] == fullGrid[x][y]) // We don't check already solved squares.
         return false;
     
@@ -252,15 +256,27 @@ function canBeNumber(x, y, num, guessGrid) {
 }
 
 fullGrid = [];
-for (i = 0; i < 9; i++)
+for (let i = 0; i < 9; i++)
     fullGrid[i] = [];
 recurse(0, 0);
 guessGrid = [];
-for (i = 0; i < 9; i++)
+for (let i = 0; i < 9; i++)
     guessGrid[i] = [];
-for (i = 0; i < 9; i++) {
+for (let i = 0; i < 9; i++) {
     for (j = 0; j < 9; j++) {
         guessGrid[i][j] = fullGrid[i][j];
     }
 }
 removeSome();
+
+gridsJson = {
+    'guessGrid': guessGrid,
+    'fullGrid': fullGrid
+};
+
+fs.writeFile("sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
+  if (err) {
+    console.error(err)
+    return
+  }
+});
