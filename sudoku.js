@@ -38,8 +38,8 @@ const recurse = function(x, y) {
     
     for (let k = -2; k <= 0; k++) {
         for (let l = -2; l <= 0; l++) {
-            if (allowed[fullGrid[x + xpos + k][y + ypos + l] + 1] != false) {
-                allowed[fullGrid[x + xpos + k][y + ypos + l] + 1] = false;
+            if (allowed[fullGrid[x + xpos + k][y + ypos + l] - 1] != false) {
+                allowed[fullGrid[x + xpos + k][y + ypos + l] - 1] = false;
                 numberExcluded++;
             }
         }
@@ -50,7 +50,7 @@ const recurse = function(x, y) {
 
     for (let i = 0; i < allowed.length; i++) {
         if (allowed[i] == true)
-            whichNumbers.push(i);
+            whichNumbers.push(i + 1);
     }
 
     if (x == 8 && y == 8) {
@@ -277,6 +277,6 @@ gridsJson = {
 fs.writeFile("sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
   if (err) {
     console.error(err)
-    return
+
   }
 });
