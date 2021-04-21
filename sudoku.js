@@ -267,7 +267,7 @@ const canBeNumber = function(x, y, num, guessGrid) {
     return true;
 }
 
-fs.readdir("sudokus/", (err, files) => {
+fs.readdir("sudokus", (err, files) => {
     if (err) {
         console.log(err);
     } else {
@@ -300,7 +300,7 @@ fs.readdir("sudokus/", (err, files) => {
                     console.error(err)
                 }
             });
-            
+
         }
     }
 });

@@ -18,12 +18,15 @@
 				<?php
 					if ($_POST['submitButton'] == "Easy") {
 						$_SESSION['difficulty'] = 12;
+						getGrids();
 						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 6;
+						getGrids();
 						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Hard") {
 						$_SESSION['difficulty'] = 0;
+						getGrids();
 						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
@@ -35,9 +38,6 @@
 						echo '<center><input type="submit" name="submitButton" value="Easy" />';
 						echo '<input type="submit" name="submitButton" value="Medium" />';
 						echo '<input type="submit" name="submitButton" value="Hard" /></center>';
-						ob_flush();
-						flush();
-						makeGrid();
 					}
 
 					if (isSet($_SESSION['difficulty'])) {
