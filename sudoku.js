@@ -107,7 +107,7 @@ const removeSome = function() {
         x = Math.floor(Math.random() * 9);
         y = Math.floor(Math.random() * 9);
         if (guessGrid[x][y] == fullGrid[x][y]) {
-            guessGrid[x][y] = '<input type="text" maxlength="1" id="' + x + ':' + y + '" name="' + x + ':' + y + '" onselect="selectInput(' + x + ', ' + y + ')" onclick="selectInput(' + x + ', ' + y + ')" oninput="inputChanged(this)" />';
+            guessGrid[x][y] = null;
             checkedSolvable[x][y] = true;
             if (!canSolve(guessGrid, x, y)) {
                 guessGrid[x][y] = fullGrid[x][y];
@@ -130,7 +130,19 @@ const removeSome = function() {
     guessGrid[x][y] = fullGrid[x][y];
 }
 
+const cloneGrid = function(oldGrid) {
+    let newGrid = [];
+    oldGrid.forEach(
+        array => {
+            newGrid.push(array.slice(0));
+        }
+    )
+
+    return newGrid;
+}
+
 const canSolve = function(guessGrid, x = -1, y = -1) {
+    guessGrid = cloneGrid(guessGrid);
     if (x > -1 && y > -1) { // It was solvable before we removed the last one, so a shortcut is to see if you can solve for the one just removed. 
         if (solveHelp(x, y, guessGrid)) 
             return true;
@@ -255,29 +267,40 @@ const canBeNumber = function(x, y, num, guessGrid) {
     return true;
 }
 
-fullGrid = [];
-for (let i = 0; i < 9; i++)
-    fullGrid[i] = [];
-recurse(0, 0);
-guessGrid = [];
-for (let i = 0; i < 9; i++)
-    guessGrid[i] = [];
-for (let i = 0; i < 9; i++) {
-    for (j = 0; j < 9; j++) {
-        guessGrid[i][j] = fullGrid[i][j];
+fs.readdir("sudokus/", (err, files) => {
+    if (err) {
+        console.log(err);
+    } else {
+        if (files.length >= 10) {
+            console.log("We have enough files.");
+        } else {
+
+            fullGrid = [];
+            for (let i = 0; i < 9; i++)
+                fullGrid[i] = [];
+            recurse(0, 0);
+            guessGrid = [];
+            for (let i = 0; i < 9; i++)
+                guessGrid[i] = [];
+            for (let i = 0; i < 9; i++) {
+                for (j = 0; j < 9; j++) {
+                    guessGrid[i][j] = fullGrid[i][j];
+                }
+            }
+            
+            removeSome();
+            
+            gridsJson = {
+                'guessGrid': guessGrid,
+                'fullGrid': fullGrid
+            };
+            
+            fs.writeFile("sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
+                if (err) {
+                    console.error(err)
+                }
+            });
+            
+        }
     }
-}
-
-removeSome();
-
-gridsJson = {
-    'guessGrid': guessGrid,
-    'fullGrid': fullGrid
-};
-
-fs.writeFile("sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
-  if (err) {
-    console.error(err)
-
-  }
 });
