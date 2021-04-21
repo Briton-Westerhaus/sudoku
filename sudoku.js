@@ -21,11 +21,11 @@ const recurse = function(x, y) {
     let whichNumbers = [];
 
     for (k = 0; k < 9; k++) {
-        if(allowed[fullGrid[k][y] - 1] != false){
+        if(allowed[fullGrid[k][y] - 1] == true) {
             allowed[fullGrid[k][y] - 1] = false;
             numberExcluded++;
         }
-        if(allowed[fullGrid[x][k] - 1] != false){
+        if(allowed[fullGrid[x][k] - 1] == true) {
             allowed[fullGrid[x][k] - 1] = false;
             numberExcluded++;
         }
@@ -38,7 +38,7 @@ const recurse = function(x, y) {
     
     for (let k = -2; k <= 0; k++) {
         for (let l = -2; l <= 0; l++) {
-            if (allowed[fullGrid[x + xpos + k][y + ypos + l] - 1] != false) {
+            if (allowed[fullGrid[x + xpos + k][y + ypos + l] - 1] == true) {
                 allowed[fullGrid[x + xpos + k][y + ypos + l] - 1] = false;
                 numberExcluded++;
             }
@@ -74,16 +74,16 @@ const recurse = function(x, y) {
         fullGrid[x][y] = whichNumbers[Math.floor(Math.random() * whichNumbers.length)];
         testNext = recurse(nextx, nexty);
         if (testNext['value'] == 0) {
-            allowed[fullGrid[x][y]] = false;
+            allowed[fullGrid[x][y] - 1] = false;
             numberExcluded++;
             if (numberExcluded == 9) {
-                fullGrid[x][y];
+                fullGrid[x][y] = null;
                 return {'boolean': false, 'value': 0};
             }
             whichNumbers = [];
             for (let i = 0; i < 9; i++) {
                 if (allowed[i] == true)
-                    whichNumbers.push(i);
+                    whichNumbers.push(i + 1);
             }
         }
 
@@ -104,8 +104,8 @@ const removeSome = function() {
     }
 
     while (solvable) {
-        x = rand(0, 8);
-        y = rand(0, 8);
+        x = Math.floor(Math.random() * 9);
+        y = Math.floor(Math.random() * 9);
         if (guessGrid[x][y] == fullGrid[x][y]) {
             guessGrid[x][y] = '<input type="text" maxlength="1" id="' + x + ':' + y + '" name="' + x + ':' + y + '" onselect="selectInput(' + x + ', ' + y + ')" onclick="selectInput(' + x + ', ' + y + ')" oninput="inputChanged(this)" />';
             checkedSolvable[x][y] = true;
@@ -115,9 +115,9 @@ const removeSome = function() {
 
             solvable = false;
 
-            for (x = 0; x < 9; x++) {
-                for (y = 0; y < 9; y++) {
-                    if (!checkedSolvable[x][y]) {
+            for (i = 0; i < 9; i++) {
+                for (j = 0; j < 9; j++) {
+                    if (!checkedSolvable[i][j]) {
                         solvable = true;
                         break;
                     }
@@ -145,7 +145,7 @@ const canSolve = function(guessGrid, x = -1, y = -1) {
             if (guessGrid[i][j] != fullGrid[i][j] && solveHelp(i, j, guessGrid)) {
                 // Something bad with chaining back the false from canSolve below?
                 guessGrid[i][j] = fullGrid[i][j];
-                return canSolve(guessGrid, []);
+                return canSolve(guessGrid);
             }
         }
     }
@@ -156,11 +156,11 @@ const solveHelp = function(x, y, guessGrid) {
     let canBe = [true, true, true, true, true, true, true, true, true];
     for (let i = 0; i < 9; i++) {
         if (i != y) {
-            if (is_int(guessGrid[x][i])) // how are we replacing is_int?
+            if (!isNaN(guessGrid[x][i]))
                 canBe[guessGrid[x][i] - 1] = false;
         }
         if (i != x) {
-            if (is_int(guessGrid[i][y])) // how are we replacing is_int?
+            if (!isNaN(guessGrid[i][y]))
                 canBe[guessGrid[i][y] - 1] = false;
         }
     }
@@ -170,13 +170,13 @@ const solveHelp = function(x, y, guessGrid) {
     for (let k = -2; k <= 0; k++) {
         for (let l = -2; l <= 0; l++) {
             if (!(xpos + k == 0 && ypos + l == 0)) {
-                if (is_int(guessGrid[x + xpos + k][y + ypos + l])) // how are we replacing is_int?
+                if (!isNaN(guessGrid[x + xpos + k][y + ypos + l])) 
                     canBe[guessGrid[x + xpos + k][y + ypos + l] - 1] = false;
             }        
         }
     }
     let count = 0;
-    canBe.foreach(
+    canBe.forEach(
         number => {
             if (number == true) {
                 count++;
@@ -267,6 +267,7 @@ for (let i = 0; i < 9; i++) {
         guessGrid[i][j] = fullGrid[i][j];
     }
 }
+
 removeSome();
 
 gridsJson = {
