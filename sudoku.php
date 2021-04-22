@@ -16,6 +16,10 @@
     function getGrids() {
         $_DIR = "./sudokus/";
         $sudokus = scandir($_DIR, 1);
+        if (count($sudokus) <= 2) {
+            exec("node sudoku.js");
+            $sudokus = scandir($_DIR, 1);
+        }
         $_FILENAME = $sudokus[0];
         $sudoku = fopen($_DIR . $_FILENAME, "r");
         $sudoku_grids = json_decode(fread($sudoku, filesize($_DIR . $_FILENAME)), true);
@@ -44,7 +48,7 @@
             $_SESSION['guessgrid'][$x][$y] = $_SESSION['fullgrid'][$x][$y];
         }
     }
-    
+
     function checkGuess() {
         if (!$_POST['completed'])
             $_SESSION['checks']++;
