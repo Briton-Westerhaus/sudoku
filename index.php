@@ -17,17 +17,20 @@
 			<form action="index.php" method="post" autocomplete="off" id="TheForm">
 				<?php
 					if ($_POST['submitButton'] == "Easy") {
-						$_SESSION['difficulty'] = 20;
-						makeGrid();
-					} else if ($_POST['submitButton'] == "Medium") {
 						$_SESSION['difficulty'] = 12;
-						makeGrid();
+						getGrids();
+						addSome($_SESSION['difficulty']);
+					} else if ($_POST['submitButton'] == "Medium") {
+						$_SESSION['difficulty'] = 6;
+						getGrids();
+						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Hard") {
-						$_SESSION['difficulty'] = 5;
-						makeGrid();
+						$_SESSION['difficulty'] = 0;
+						getGrids();
+						addSome($_SESSION['difficulty']);
 					} else if ($_POST['submitButton'] == "Check" || $_POST['completed'] == "true") {
 						$done = checkGuess();
-					} else if ($_POST['submitButton'] == "Get a new Sudoku!" || !isSet($_POST['submitButton'])) {
+					} else if (!isSet($_POST['submitButton']) || $_POST['submitButton'] == "Get a new Sudoku!") {
 						unset($_SESSION['difficulty']);
 						$_SESSION['checks'] = 0;
 						$_SESSION['incorrects'] = 0;
