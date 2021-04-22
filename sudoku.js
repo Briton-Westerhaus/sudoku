@@ -267,7 +267,7 @@ const canBeNumber = function(x, y, num, guessGrid) {
     return true;
 }
 
-fs.readdir("./sudokus", (err, files) => {
+fs.readdir(__dirname + "/sudokus", (err, files) => {
     if (err) {
         console.log(err);
     } else {
@@ -295,7 +295,7 @@ fs.readdir("./sudokus", (err, files) => {
                 'fullGrid': fullGrid
             };
             
-            fs.writeFile("./sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
+            fs.writeFile(__dirname + "/sudokus" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), err => {
                 if (err) {
                     console.error(err)
                 }
