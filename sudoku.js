@@ -295,7 +295,7 @@ fs.readdir(__dirname + "/sudokus", (err, files) => {
                 'fullGrid': fullGrid
             };
             
-            fs.writeFile(__dirname + "/sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), {"mode":755}, err => {
+            fs.writeFile(__dirname + "/sudokus/" + (new Date()).getTime() + ".json", JSON.stringify(gridsJson), {"mode": 0777}, err => {
                 if (err) {
                     console.error(err)
                 } 
