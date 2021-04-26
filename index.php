@@ -42,7 +42,7 @@
 
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
-						echo '<table><tbody>';
+						echo '<table class="gameGrid"><tbody>';
 						for ($i = 0; $i < 3; $i++) {
 							echo "<tr>";
 							for ($j = 0; $j < 3; $j++) {
@@ -51,13 +51,31 @@
 									echo "<tr>";
 									for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
 										if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
-										echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+											echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
 										else
 											echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
 									}
 									echo "</tr>";
 								}
 								echo '</tbody></table></td>';
+							}
+							echo "</tr>";
+						}
+						echo "</tbody></table>";
+
+						echo '<table class="pencilGrid"><tbody>';
+						for ($i = 0; $i < 9; $i++) {
+							echo "<tr>";
+							for ($j = 0; $j < 9; $j++) {
+								echo '<td><table>';
+									for ($k = 0; $k < 3; $k++) {
+										echo '<tr>';
+											for ($l = 0; $l < 3; $l++) {
+												echo '<td class="pencilMark">' . ($k * 3 + $l + 1) . '</td>';
+											}
+										echo '</tr>';
+									}
+								echo '</table></td>';
 							}
 							echo "</tr>";
 						}

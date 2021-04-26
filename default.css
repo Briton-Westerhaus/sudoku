@@ -29,14 +29,15 @@ h2 {
 
 form {
     margin-top: 25%;
+    position: relative;
 }
 
-table {
+table.gameGrid, table.gameGrid table {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-input[type=text] {
+table.gameGrid input[type=text] {
     border: none;
     line-height: 1.875em;
     width: 1.875em;
@@ -44,17 +45,35 @@ input[type=text] {
     text-align: center;
 }
 
-td {
+table.gameGrid td {
     line-height: 1.875em;
     width: 1.875em;
     border: 1px solid black;
     text-align: center;
 }
 
-td span {
+table.gameGrid td span {
     line-height: 1.875em;
     width: 1.875em;
     display: inline-block;
+}
+
+table.pencilGrid {
+    position: absolute;
+    top: 0px;
+}
+
+table.pencilGrid * {
+    background-color: rgba(0, 0, 0, 0);
+    border-collapse: collapse;
+}
+
+td.pencilMark {  
+    border: none;
+    line-height: 1.875em;
+    width: 1.875em;
+    font-size: .3333333333em;
+    text-align: center;
 }
 
 input[type=submit] {
