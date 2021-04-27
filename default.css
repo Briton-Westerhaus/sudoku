@@ -50,30 +50,42 @@ table.gameGrid td {
     width: 1.875em;
     border: 1px solid black;
     text-align: center;
+    position: relative;
 }
 
 table.gameGrid td span {
     line-height: 1.875em;
     width: 1.875em;
     display: inline-block;
+    position: relative;
 }
 
 table.pencilGrid {
     position: absolute;
     top: 0px;
+    border-collapse: collapse;
 }
 
-table.pencilGrid * {
+table.pencilContainer {
+    border: 1px solid rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-collapse: collapse;
+}
+
+table.pencilContainer * {
     background-color: rgba(0, 0, 0, 0);
     border-collapse: collapse;
 }
 
-td.pencilMark {  
+table.pencilContainer td.pencilMark {  
     border: none;
     line-height: 1.875em;
     width: 1.875em;
     font-size: .3333333333em;
     text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0);
 }
 
 input[type=submit] {

@@ -51,9 +51,18 @@
 									echo "<tr>";
 									for ($l = 3 * $j; $l < 3 * $j + 3; $l++) {
 										if ($_SESSION['guessgrid'][$k][$l] == $_POST[$k . ':' . $l])
-											echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+											echo '<td><span class="correct">' . $_SESSION['guessgrid'][$k][$l] . '</span>';
 										else
-											echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span></td>';
+											echo '<td><span>' . $_SESSION['guessgrid'][$k][$l] . '</span>';
+										echo '<table class="pencilContainer"><tbody>';
+										for ($m = 0; $m < 3; $m++) {
+											echo '<tr>';
+												for ($n = 0; $n < 3; $n++) {
+													echo '<td class="pencilMark">' . ($m * 3 + $n + 1) . '</td>';
+												}
+											echo '</tr>';
+										}
+										echo '</tbody></table></td>';	
 									}
 									echo "</tr>";
 								}
@@ -63,11 +72,11 @@
 						}
 						echo "</tbody></table>";
 
-						echo '<table class="pencilGrid"><tbody>';
+						/*echo '<table class="pencilGrid"><tbody>';
 						for ($i = 0; $i < 9; $i++) {
 							echo "<tr>";
 							for ($j = 0; $j < 9; $j++) {
-								echo '<td><table>';
+								echo '<td><table class="pencilContainer"><tbody>';
 									for ($k = 0; $k < 3; $k++) {
 										echo '<tr>';
 											for ($l = 0; $l < 3; $l++) {
@@ -75,7 +84,7 @@
 											}
 										echo '</tr>';
 									}
-								echo '</table></td>';
+								echo '</tbody></table></td>';
 							}
 							echo "</tr>";
 						}
@@ -84,7 +93,7 @@
 						if (!$done)
 							echo '<input type="submit" name="submitButton" value="Check" />';
 						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
-						echo '</section>';
+						echo '</section>';*/
 					}
 				?>
 			</form>
