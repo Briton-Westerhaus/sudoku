@@ -58,7 +58,7 @@
 										for ($m = 0; $m < 3; $m++) {
 											echo '<tr>';
 												for ($n = 0; $n < 3; $n++) {
-													echo '<td class="pencilMark">' . ($m * 3 + $n + 1) . '</td>';
+													echo '<td class="pencilMark" id="' . $k . ':' . $l . ':' . ($m * 3 + $n + 1) . '">&nbsp;</td>';
 												}
 											echo '</tr>';
 										}
