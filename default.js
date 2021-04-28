@@ -1,4 +1,4 @@
-let activeX, activeY;
+let activeX, activeY, pencilMode;
 
 function selectInput(inputX, inputY) {
     if (activeX == inputX && activeY == inputY)
@@ -16,24 +16,32 @@ function inputChanged(evt) {
         document.getElementById(evt.id).value = "";
     }
 
-    let theElement;
-    for (let x = 0; x < 9; x++) {
-        for (let y = 0; y < 9; y++) {
-            theElement = document.getElementById(x + ':' + y);
-            if (theElement == null)
-                continue;
-            if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
-                return;
+    if (pencilMode) {
+        document.getElementById(evt.id + ':' + theValue).innerHTML = theValue;
+        evt.value = '';
+    } else {
+        let theElement;
+        for (let x = 0; x < 9; x++) {
+            for (let y = 0; y < 9; y++) {
+                theElement = document.getElementById(x + ':' + y);
+                if (theElement == null)
+                    continue;
+                if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
+                    return;
+            }
         }
-    }
 
-    document.getElementById("Completed").value = true;
-    document.getElementById("TheForm").submit();
+        document.getElementById("Completed").value = true;
+        document.getElementById("TheForm").submit();
+    }
 }
 
 function init() {
     let element;
     let x = 0, y = -1;
+
+    pencilMode = false;
+
     while (!element) {
         y++;
         if (y > 8) {
@@ -48,7 +56,7 @@ function init() {
         selectInput(x, y);
 
         window.setTimeout(clearResults, 3000);
-    } else { // Comlet3ed
+    } else { // Completed
         clearResults();
     }
 }

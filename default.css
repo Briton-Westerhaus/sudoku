@@ -7,6 +7,7 @@
     margin: 0px;
     padding: 0px;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: transparent; /* Maybe we don't want everything transparent, but this is probably okay. */
 }
 
 .content {
@@ -72,10 +73,11 @@ table.pencilContainer {
     top: 0px;
     left: 0px;
     border-collapse: collapse;
+    z-index: -1;
 }
 
 table.pencilContainer * {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     border-collapse: collapse;
 }
 

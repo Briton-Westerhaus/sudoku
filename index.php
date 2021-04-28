@@ -71,29 +71,11 @@
 							echo "</tr>";
 						}
 						echo "</tbody></table>";
-
-						/*echo '<table class="pencilGrid"><tbody>';
-						for ($i = 0; $i < 9; $i++) {
-							echo "<tr>";
-							for ($j = 0; $j < 9; $j++) {
-								echo '<td><table class="pencilContainer"><tbody>';
-									for ($k = 0; $k < 3; $k++) {
-										echo '<tr>';
-											for ($l = 0; $l < 3; $l++) {
-												echo '<td class="pencilMark">' . ($k * 3 + $l + 1) . '</td>';
-											}
-										echo '</tr>';
-									}
-								echo '</tbody></table></td>';
-							}
-							echo "</tr>";
-						}
-						echo "</tbody></table>";
 						echo '<section>';
 						if (!$done)
 							echo '<input type="submit" name="submitButton" value="Check" />';
 						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
-						echo '</section>';*/
+						echo '</section>';
 					}
 				?>
 			</form>
