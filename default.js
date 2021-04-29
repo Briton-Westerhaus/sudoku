@@ -21,6 +21,11 @@ function inputChanged(evt) {
         evt.value = '';
     } else {
         let theElement;
+        // First clear the pencil marks
+        for (let i = 1; i <= 9; i++) {
+            theElement = document.getElementById(evt.id + ':' + i).innerHTML = "&nbsp;";
+        }
+
         for (let x = 0; x < 9; x++) {
             for (let y = 0; y < 9; y++) {
                 theElement = document.getElementById(x + ':' + y);
@@ -59,6 +64,11 @@ function init() {
     } else { // Completed
         clearResults();
     }
+}
+
+function togglePencil() {
+    pencilMode = !pencilMode;
+    // TODO: Somehow indicate in the button which mode we're in.
 }
 
 function clearResults() {

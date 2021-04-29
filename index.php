@@ -79,6 +79,7 @@
 					}
 				?>
 			</form>
+			<button onclick="togglePencil();">Pencil</button>
 			<?php
 				if ($done) {
 			?>
