@@ -79,7 +79,7 @@
 					}
 				?>
 			</form>
-			<button onclick="togglePencil();">Pencil</button>
+			<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();">Pencil &#x270F;</button>
 			<?php
 				if ($done) {
 			?>
@@ -90,7 +90,7 @@
 					<p>Wrong Numbers: <?php echo $_SESSION['incorrects']; ?></p>
 					<input type="submit" name="submitButton" value="Get a new Sudoku!" />
 				</form>
-				<button onclick="closeModal();" name="submitButton">&#10006;</button>
+				<button class="closeButton" onclick="closeModal();" name="submitButton">&#10006;</button>
 			</div>
 			<?php
 				}

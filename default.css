@@ -87,9 +87,11 @@ table.pencilContainer td.pencilMark {
     width: 1.875em;
     font-size: .3333333333em;
     text-align: center;
+    color: rgb(87, 87, 87);
+    font-weight: bold;
 }
 
-input[type=submit] {
+input[type=submit], button {
     cursor: pointer;
     margin: 1em;
     padding: .4em;
@@ -98,7 +100,7 @@ input[type=submit] {
     background-color: rgb(220, 220, 220);
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, button:hover {
     background-color: rgb(236, 236, 236);
 }
 
@@ -144,7 +146,7 @@ input[type=submit]:hover {
     margin: .5em;
 }
 
-button { /* Close button */
+button.closeButton {
     color: black;
     background-color: white;
     height: 20px;
@@ -158,4 +160,10 @@ button { /* Close button */
     cursor: pointer;
     font-weight: bold;
     line-height: 18px;
+    padding: 0px;
+    margin: 0px;
+}
+
+button.closeButton:hover {
+    background-color: transparent;
 }
