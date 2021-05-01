@@ -76,10 +76,12 @@
 							echo '<input type="submit" name="submitButton" value="Check" />';
 						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
 						echo '</section>';
-						echo '<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();return false;">Pencil &#x270F;</button>';
+						echo '</form>';
+						echo '<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();">Pencil &#x270F;</button>';
+					} else {
+						echo '</form>';
 					}
 				?>
-			</form>
 			<?php
 				if ($done) {
 			?>
