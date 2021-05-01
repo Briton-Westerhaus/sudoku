@@ -17,7 +17,12 @@ function inputChanged(evt) {
     }
 
     if (pencilMode) {
-        document.getElementById(evt.id + ':' + theValue).innerHTML = theValue;
+        let pencilMark = document.getElementById(evt.id + ':' + theValue);
+        if (pencilMark.innerHTML != theValue) {
+            pencilMark.innerHTML = theValue;
+        } else {
+            pencilMark.innerHTML = "&nbsp;";
+        }
         evt.value = '';
     } else {
         let theElement;
