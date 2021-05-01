@@ -74,15 +74,17 @@
 						echo '<section>';
 						if (!$done)
 							echo '<input type="submit" name="submitButton" value="Check" />';
-						echo '<input type="submit" name="submitButton" value="Get a new Sudoku!" />';
-						echo '</section>';
-						echo '</form>';
-						echo '<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();">Pencil &#x270F;</button>';
+			?>
+						<input type="submit" name="submitButton" value="Get a new Sudoku!" />
+						</section>
+						</form>
+						<div class="controls">
+							<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();">Pencil &#x270F;</button>
+						</div>
+			<?php
 					} else {
 						echo '</form>';
 					}
-				?>
-			<?php
 				if ($done) {
 			?>
 			<div id="ModalContainer">

@@ -31,6 +31,7 @@ h2 {
 form {
     margin-top: 25%;
     position: relative;
+    display: inline-block;
 }
 
 table.gameGrid, table.gameGrid table {
@@ -166,4 +167,10 @@ button.closeButton {
 
 button.closeButton:hover {
     background-color: transparent;
+}
+
+.controls {
+    float: left;
+    width: 25%;
+    margin-left: -25%;
 }
