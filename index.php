@@ -79,7 +79,7 @@
 						</section>
 						</form>
 						<div class="controls">
-							<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();">Pencil &#x270F;</button>
+							<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();" id="PencilButton">Pencil &#x270F;</button>
 						</div>
 			<?php
 					} else {
