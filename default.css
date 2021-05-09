@@ -170,7 +170,6 @@ button.closeButton:hover {
 }
 
 button.active {
-    /*box-shadow: 0px 0px 7px 5px white inset;*/
     border-color: rgb(42, 133, 252);
 }
 
