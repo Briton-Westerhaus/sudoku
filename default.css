@@ -96,7 +96,7 @@ input[type=submit], button {
     cursor: pointer;
     margin: 1em;
     padding: .4em;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 5px;
     background-color: rgb(220, 220, 220);
 }
@@ -167,6 +167,11 @@ button.closeButton {
 
 button.closeButton:hover {
     background-color: transparent;
+}
+
+button.active {
+    /*box-shadow: 0px 0px 7px 5px white inset;*/
+    border-color: rgb(42, 133, 252);
 }
 
 .controls {

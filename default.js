@@ -74,7 +74,7 @@ function init() {
 function togglePencil() {
     pencilMode = !pencilMode;
     if (pencilMode) {
-        document.getElementById("PencilButton").className = "Active";
+        document.getElementById("PencilButton").className = "active";
     } else {
         document.getElementById("PencilButton").className = "";
     }
