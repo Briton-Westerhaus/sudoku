@@ -9,6 +9,7 @@
 		<meta name="keywords" content="media, entertainment, fun, games" />
 		<meta name="author" content="Briton Westerhaus" />
 		<link rel="stylesheet" type="text/css" href="default.css" />
+		<link rel="stylesheet" type="text/css" href="toggle.css" />
 		<script type="text/javascript" src="default.js"></script>
 		<script type="text/javascript" src="toggle.js"></script>
 	</head>

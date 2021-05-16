@@ -1,0 +1,8 @@
+input[type=checkbox] {
+    display: none;
+}
+
+input[type=checkbox]:after {
+    display: block!important;
+    content: '<div>Test</div>';
+}
