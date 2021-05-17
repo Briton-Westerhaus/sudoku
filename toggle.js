@@ -7,7 +7,9 @@ class toggle {
     }
 
     display() {
-        document.write(`<input type="checkbox" id="${this.id}" className="toggleOff" onClick="${this.toggleFunction}();" />`)
+        document.write('<span class="briton-toggle">');
+        document.write(`<input type="checkbox" id="${this.id}" className="briton-toggle toggle-off" onClick="${this.toggleFunction}();" />`)
+        document.write('</span>');
     }
 
     switch() {
@@ -16,9 +18,9 @@ class toggle {
 
         this.on = !this.on;
         if (this.on) {
-            element.className = "toggleOn";
+            element.className = "briton-toggle toggle-on";
         } else {
-            element.className = "toggleOff";
+            element.className = "briton-toggle toggle-off";
         }
     }
 }
