@@ -7,13 +7,11 @@ class toggle {
     }
 
     display() {
-        document.write('<span class="briton-toggle">');
-        document.write(`<input type="checkbox" id="${this.id}" className="briton-toggle toggle-off" onClick="${this.toggleFunction}();" />`)
-        document.write('</span>');
+        document.write(`<span class="briton-toggle toggle-off" id="${this.id}" onClick="switch();">&#x2B24;</span>`);
     }
 
     switch() {
-        let element = document.geetElementById(this.id);
+        let element = document.getElementById(this.id);
         this.toggleFunction();
 
         this.on = !this.on;

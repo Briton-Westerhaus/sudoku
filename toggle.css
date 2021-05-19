@@ -1,5 +1,22 @@
 .briton-toggle {
-    display: none;
+    display: block;
+    color: white;
+    font-size: 1.75em;
+    border-radius: .9em;
+    line-height: .9em;
+    height: .9em;
+    width: 2em;
+    cursor: pointer;
+}
+
+.toggle-off {
+    background-color: rgb(156, 156, 156);
+    text-align: left;
+}
+
+.toggle-on {
+    background-color: rgb(20, 111, 230);
+    text-align: right;
 }
 
 input[type=checkbox]:after {
