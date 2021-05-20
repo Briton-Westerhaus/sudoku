@@ -29,7 +29,7 @@
 }
 
 .toggle-on span {
-    left: calc(100% - .9em);
+    left: 57%;
 }
 
 input[type=checkbox]:after {
