@@ -7,16 +7,29 @@
     height: .9em;
     width: 2em;
     cursor: pointer;
+    text-align: left;
+    transition: background-color, .3s ease;
+}
+
+.briton-toggle span{
+    position: relative;
+    transition: all .3s ease;
 }
 
 .toggle-off {
     background-color: rgb(156, 156, 156);
-    text-align: left;
+}
+
+.toggle-off span {
+    left: 0px;
 }
 
 .toggle-on {
     background-color: rgb(20, 111, 230);
-    text-align: right;
+}
+
+.toggle-on span {
+    left: calc(100% - .9em);
 }
 
 input[type=checkbox]:after {

@@ -7,7 +7,7 @@ class toggle {
     }
 
     display() {
-        document.write(`<span class="briton-toggle toggle-off" id="${this.id}" onClick="switch();">&#x2B24;</span>`);
+        document.write(`<span class="briton-toggle toggle-off" id="${this.id}" onclick="${this.id}.switch()"><span>&#x2B24;</span></span>`);
     }
 
     switch() {
