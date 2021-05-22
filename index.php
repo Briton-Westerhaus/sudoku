@@ -82,7 +82,6 @@
 						</form>
 						<div class="controls">
 							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil"); pencilToggle.display();</script>
-							<button title="Pencil mode lets you take notes of possible numbers." onclick="togglePencil();" id="PencilButton">Pencil &#x270F;</button>
 						</div>
 			<?php
 					} else {
