@@ -1,5 +1,17 @@
-.briton-toggle {
+.briton-toggle-container {
+    white-space: nowrap;
     display: block;
+}
+
+.briton-toggle-container label {
+    line-height: 1.575em;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: .5em;
+}
+
+.briton-toggle {
+    display: inline-block;
     color: white;
     font-size: 1.75em;
     border-radius: .9em;
