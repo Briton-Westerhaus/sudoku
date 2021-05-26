@@ -1,4 +1,4 @@
-let activeX, activeY, pencilMode, autoCheckMode;
+let activeX, activeY, pencilMode, autoCheckMode, autoPencilMode;
 
 function selectInput(inputX, inputY) {
     if (activeX == inputX && activeY == inputY)
@@ -53,6 +53,7 @@ function init() {
     // Mode toggles
     pencilMode = false;
     autoCheckMode = false;
+    autoPencilMode = false;
 
     while (!element) {
         y++;
@@ -79,6 +80,10 @@ function togglePencil() {
 
 function toggleAutoCheck() {
     autoCheckMode = !autoCheckMode;
+}
+
+function toggleAutoPencil() {
+    autoPencilMode = !autoPencilMode;
 }
 
 function clearResults() {

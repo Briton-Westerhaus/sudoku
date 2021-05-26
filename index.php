@@ -81,8 +81,9 @@
 						</section>
 						</form>
 						<div class="controls">
-							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil"); pencilToggle.display();</script>
-							<script type="text/javascript">const autoCheckToggle = new toggle("autoCheckToggle", toggleAutoCheck, "Auto-check"); autoCheckToggle.display();</script>
+							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil", "Lets you mark the possible numbers in a square"); pencilToggle.display();</script>
+							<script type="text/javascript">const autoCheckToggle = new toggle("autoCheckToggle", toggleAutoCheck, "Auto-check", "Checks a number as soon as you enter it"); autoCheckToggle.display();</script>
+							<script type="text/javascript">const autoPencilToggle = new toggle("autoPencilToggle", toggleAutoPencil, "Auto-pencil", "Fills out all pencil marks for you"); autoPencilToggle.display();</script>
 						</div>
 			<?php
 					} else {
