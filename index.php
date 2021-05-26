@@ -82,6 +82,7 @@
 						</form>
 						<div class="controls">
 							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil"); pencilToggle.display();</script>
+							<script type="text/javascript">const autoCheckToggle = new toggle("autoCheckToggle", toggleAutoCheck, "Auto-check"); autoCheckToggle.display();</script>
 						</div>
 			<?php
 					} else {

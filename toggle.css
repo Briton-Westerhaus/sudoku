@@ -1,6 +1,7 @@
 .briton-toggle-container {
     white-space: nowrap;
     display: block;
+    margin-bottom: .5em;
 }
 
 .briton-toggle-container label {
@@ -11,7 +12,6 @@
 }
 
 .briton-toggle {
-    display: inline-block;
     color: white;
     font-size: 1.75em;
     border-radius: .9em;
@@ -21,6 +21,13 @@
     cursor: pointer;
     text-align: left;
     transition: background-color, .3s ease;
+    float: right;
+}
+
+.briton-clearfix {
+    font-size: 0px;
+    content: ".";
+    clear: both;
 }
 
 .briton-toggle span{

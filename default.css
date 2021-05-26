@@ -175,6 +175,7 @@ button.active {
 
 .controls {
     float: left;
-    width: 25%;
-    margin-left: -25%;
+    width: 50%;
+    margin-left: -50%;
+    text-align: left;
 }
