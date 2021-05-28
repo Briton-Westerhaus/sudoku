@@ -10,6 +10,41 @@
 		<meta name="author" content="Briton Westerhaus" />
 		<link rel="stylesheet" type="text/css" href="default.css" />
 		<link rel="stylesheet" type="text/css" href="toggle.css" />
+		<script type="text/javascript">
+			// Initialize guess and full grids in js
+			<?php
+				/*echo "const fullGrid = [";
+				for ($x = 0; $x < 9; $x++) {
+					echo "[";
+					for ($y = 0; $y < 9; $y++) {
+						echo $_SESSION['fullgrid'][$x][$y];
+						if ($y < 8)
+							echo ",";
+					}
+					echo "]";
+					if ($x < 8)
+						echo ",";
+				}
+				echo "];";*/
+
+				echo "const guessGrid = [";
+				for ($x = 0; $x < 9; $x++) {
+					echo "[";
+					for ($y = 0; $y < 9; $y++) {
+						if (is_numeric($_SESSION['guessgrid'][$x][$y]))
+							echo $_SESSION['guessgrid'][$x][$y];
+						else
+							echo "null";
+						if ($y < 8)
+							echo ",";
+					}
+					echo "]";
+					if ($x < 8)
+						echo ",";
+				}
+				echo "];";
+			?>
+		</script>
 		<script type="text/javascript" src="default.js"></script>
 		<script type="text/javascript" src="toggle.js"></script>
 	</head>

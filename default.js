@@ -46,6 +46,27 @@ function inputChanged(evt) {
     }
 }
 
+function canBeNumber(x, y, num, guessGrid) {
+    if (guessGrid[x][y] == fullGrid[x][y]) // We don't check already solved squares.
+        return false;
+    
+    for (let i = 0; i < 9; i++) {
+        if (guessGrid[x][i] == num)
+            return false;
+        if (guessGrid[i][y] == num)
+            return false;
+    }
+    let xpos = 2 - (x % 3);
+    let ypos = 2 - (y % 3);
+    for (let k = -2; k <= 0; k++) {
+        for (let l = -2; l <= 0; l++) {
+            if (guessGrid[x + xpos + k][y + ypos + l] == num)
+                return false;
+        }
+    }
+    return true;
+}
+
 function init() {
     let element;
     let x = 0, y = -1;
