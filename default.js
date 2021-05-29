@@ -40,7 +40,11 @@ function inputChanged(evt) {
     } else {
         let theElement;
         let coords = evt.id.split(':');
-        guessGrid[coords[0]][coords[1]] = theValue;
+        if (isNaN(theValue) || theValue == 0 || theValue > 9) {
+            guessGrid[coords[0]][coords[1]] = null;
+        } else {
+            guessGrid[coords[0]][coords[1]] = theValue;
+        }
         // First clear the pencil marks
         for (let i = 1; i <= 9; i++) {
             theElement = document.getElementById(evt.id + ':' + i).innerHTML = "&nbsp;";
@@ -68,7 +72,7 @@ function markPencils() {
                 if (canBeNumber(x, y, num)) {
                     document.getElementById(x + ":" + y + ":" + num).innerHTML = num;
                 } else {
-                    document.getElementById(x + ":" + y + ":" + num).innerHTML = '';
+                    document.getElementById(x + ":" + y + ":" + num).innerHTML = '&nbsp;';
                 }
             }
         }
@@ -79,7 +83,7 @@ function clearPencils() {
     for (let x = 0; x < 9; x++) {
         for (let y = 0; y < 9; y++) {
             for (let num = 1; num <= 9; num++) {
-                document.getElementById(x + ":" + y + ":" + num).innerHTML = '';
+                document.getElementById(x + ":" + y + ":" + num).innerHTML = '&nbsp;';
             }
         }
     }
