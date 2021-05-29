@@ -44,6 +44,9 @@
 
 					if (isSet($_SESSION['difficulty'])) {
 						echo '<input type="hidden" name="completed" id="Completed" value="false" />';
+						echo '<input type="hidden" name="pencilMode" id="PencilMode" value="' . ($_POST['pencilMode'] == 'true' ? 'true' : 'false') . '" />';
+						echo '<input type="hidden" name="autoCheckMode" id="AutoCheckMode" value="' . ($_POST['autoCheckMode'] == 'true' ? 'true' : 'false') . '" />';
+						echo '<input type="hidden" name="autoPencilMode" id="AutoPencilMode" value="' . ($_POST['autoPencilMode'] == 'true' ? 'true' : 'false') . '" />';
 						echo '<table class="gameGrid"><tbody>';
 						for ($i = 0; $i < 3; $i++) {
 							echo "<tr>";
@@ -81,9 +84,9 @@
 						</section>
 						</form>
 						<div class="controls">
-							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil", "Lets you mark the possible numbers in a square"); pencilToggle.display();</script>
-							<script type="text/javascript">const autoCheckToggle = new toggle("autoCheckToggle", toggleAutoCheck, "Auto-check", "Checks a number as soon as you enter it"); autoCheckToggle.display();</script>
-							<script type="text/javascript">const autoPencilToggle = new toggle("autoPencilToggle", toggleAutoPencil, "Auto-pencil", "Fills out all pencil marks for you"); autoPencilToggle.display();</script>
+							<script type="text/javascript">const pencilToggle = new toggle("pencilToggle", togglePencil, "Pencil", "Lets you mark the possible numbers in a square", "PencilMode"); pencilToggle.display();</script>
+							<script type="text/javascript">const autoCheckToggle = new toggle("autoCheckToggle", toggleAutoCheck, "Auto-check", "Checks a number as soon as you enter it", "AutoCheckMode"); autoCheckToggle.display();</script>
+							<script type="text/javascript">const autoPencilToggle = new toggle("autoPencilToggle", toggleAutoPencil, "Auto-pencil", "Fills out all pencil marks for you", "AutoPencilMode"); autoPencilToggle.display();</script>
 						</div>
 			<?php
 					} else {

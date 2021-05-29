@@ -52,7 +52,7 @@ function inputChanged(evt) {
 
         let complete = isComplete();
 
-        if (complete) {
+        if (complete || autoCheckMode) {
             document.getElementById("Completed").value = true;
             document.getElementById("TheForm").submit();
         }
@@ -112,9 +112,9 @@ function init() {
     let x = 0, y = -1;
 
     // Mode toggles
-    pencilMode = false;
-    autoCheckMode = false;
-    autoPencilMode = false;
+    pencilMode = (document.getElementById('PencilMode') == null ? false : document.getElementById("PencilMode").value == 'true');
+    autoCheckMode = (document.getElementById('AutoCheckMode') == null ? false : document.getElementById("AutoCheckMode").value == 'true');
+    autoPencilMode = (document.getElementById('AutoPencilMode') == null ? false : document.getElementById("AutoPencilMode").value == 'true');
 
     while (!element) {
         y++;
@@ -137,14 +137,17 @@ function init() {
 
 function togglePencil() {
     pencilMode = !pencilMode;
+    document.getElementById("PencilMode").value = pencilMode;
 }
 
 function toggleAutoCheck() {
     autoCheckMode = !autoCheckMode;
+    document.getElementById("AutoCheckMode").value = autoCheckMode;
 }
 
 function toggleAutoPencil() {
     autoPencilMode = !autoPencilMode;
+    document.getElementById("AutoPencilMode").value = autoPencilMode;
     if (autoPencilMode) {
         markPencils();
     } else {
