@@ -10,6 +10,19 @@ function selectInput(inputX, inputY) {
     input.select();
 }
 
+function isComplete() {
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            theElement = document.getElementById(x + ':' + y);
+            if (theElement == null)
+                continue;
+            if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
+                return false;
+        }
+    }
+    return true;
+}
+
 function inputChanged(evt) {
     let theValue = Number(evt.value);
     if (isNaN(theValue) || theValue == 0 || theValue > 9) {
@@ -26,30 +39,53 @@ function inputChanged(evt) {
         evt.value = '';
     } else {
         let theElement;
+        let coords = evt.id.split(':');
+        guessGrid[coords[0]][coords[1]] = theValue;
         // First clear the pencil marks
         for (let i = 1; i <= 9; i++) {
             theElement = document.getElementById(evt.id + ':' + i).innerHTML = "&nbsp;";
         }
 
-        for (let x = 0; x < 9; x++) {
-            for (let y = 0; y < 9; y++) {
-                theElement = document.getElementById(x + ':' + y);
-                if (theElement == null)
-                    continue;
-                if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
-                    return;
-            }
-        }
+        let complete = isComplete();
 
-        document.getElementById("Completed").value = true;
-        document.getElementById("TheForm").submit();
+        if (complete) {
+            document.getElementById("Completed").value = true;
+            document.getElementById("TheForm").submit();
+        }
+    }
+    
+    if (autoPencilMode) {
+        markPencils();
     }
 }
 
-function canBeNumber(x, y, num, guessGrid) {
-    if (guessGrid[x][y] == fullGrid[x][y]) // We don't check already solved squares.
-        return false;
-    
+function markPencils() {
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            if (guessGrid[x][y] != null)
+                continue;
+            for (let num = 1; num <= 9; num++) {
+                if (canBeNumber(x, y, num)) {
+                    document.getElementById(x + ":" + y + ":" + num).innerHTML = num;
+                } else {
+                    document.getElementById(x + ":" + y + ":" + num).innerHTML = '';
+                }
+            }
+        }
+    }
+}
+
+function clearPencils() {
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            for (let num = 1; num <= 9; num++) {
+                document.getElementById(x + ":" + y + ":" + num).innerHTML = '';
+            }
+        }
+    }
+}
+
+function canBeNumber(x, y, num) {    
     for (let i = 0; i < 9; i++) {
         if (guessGrid[x][i] == num)
             return false;
@@ -105,6 +141,11 @@ function toggleAutoCheck() {
 
 function toggleAutoPencil() {
     autoPencilMode = !autoPencilMode;
+    if (autoPencilMode) {
+        markPencils();
+    } else {
+        clearPencils();
+    }
 }
 
 function clearResults() {
