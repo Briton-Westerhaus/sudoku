@@ -84,9 +84,9 @@ table.pencilContainer * {
 
 table.pencilContainer td.pencilMark {  
     border: none;
-    line-height: 1.875em;
-    width: 1.875em;
-    font-size: .3333333333em;
+    line-height: 1.25em;
+    width: 1.25em;
+    font-size: .5em;
     text-align: center;
     color: rgb(87, 87, 87);
     font-weight: bold;
