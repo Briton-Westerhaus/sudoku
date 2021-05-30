@@ -116,6 +116,10 @@ function init() {
     autoCheckMode = (document.getElementById('AutoCheckMode') == null ? false : document.getElementById("AutoCheckMode").value == 'true');
     autoPencilMode = (document.getElementById('AutoPencilMode') == null ? false : document.getElementById("AutoPencilMode").value == 'true');
 
+    if (autoPencilMode) {
+        markPencils();
+    }
+
     while (!element) {
         y++;
         if (y > 8) {
