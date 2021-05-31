@@ -56,10 +56,9 @@ function inputChanged(evt) {
             document.getElementById("Completed").value = true;
             document.getElementById("TheForm").submit();
         }
-    }
-    
-    if (autoPencilMode) {
-        markPencils();
+        if (autoPencilMode) {
+            markPencils();
+        }
     }
 }
 
