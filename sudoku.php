@@ -1,6 +1,5 @@
 <?php
 
-
     function getCount($guessGrid) {
         $count = 0;
         for ($j = 0; $j < 9; $j++) {

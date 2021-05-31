@@ -1,4 +1,4 @@
-let activeX, activeY;
+let activeX, activeY, pencilMode, autoCheckMode, autoPencilMode;
 
 function selectInput(inputX, inputY) {
     if (activeX == inputX && activeY == inputY)
@@ -10,30 +10,115 @@ function selectInput(inputX, inputY) {
     input.select();
 }
 
-function inputChanged(evt) {
-    let theValue = Number(evt.value);
-    if (isNaN(theValue) || theValue == 0 || theValue > 9) {
-        document.getElementById(evt.id).value = "";
-    }
-
-    let theElement;
+function isComplete() {
     for (let x = 0; x < 9; x++) {
         for (let y = 0; y < 9; y++) {
             theElement = document.getElementById(x + ':' + y);
             if (theElement == null)
                 continue;
             if (theElement.value.length < 1 || theElement.className == "wrong") // Also don't submit if we're still looking at wrong answers.
-                return;
+                return false;
         }
     }
+    return true;
+}
 
-    document.getElementById("Completed").value = true;
-    document.getElementById("TheForm").submit();
+function inputChanged(evt) {
+    let theValue = Number(evt.value);
+    if (isNaN(theValue) || theValue == 0 || theValue > 9) {
+        document.getElementById(evt.id).value = "";
+    }
+
+    if (pencilMode) {
+        let pencilMark = document.getElementById(evt.id + ':' + theValue);
+        if (pencilMark.innerHTML != theValue) {
+            pencilMark.innerHTML = theValue;
+        } else {
+            pencilMark.innerHTML = "&nbsp;";
+        }
+        evt.value = '';
+    } else {
+        let theElement;
+        let coords = evt.id.split(':');
+        if (isNaN(theValue) || theValue == 0 || theValue > 9) {
+            guessGrid[coords[0]][coords[1]] = null;
+        } else {
+            guessGrid[coords[0]][coords[1]] = theValue;
+        }
+        // First clear the pencil marks
+        for (let i = 1; i <= 9; i++) {
+            theElement = document.getElementById(evt.id + ':' + i).innerHTML = "&nbsp;";
+        }
+
+        let complete = isComplete();
+
+        if (complete || autoCheckMode) {
+            document.getElementById("Completed").value = true;
+            document.getElementById("TheForm").submit();
+        }
+        if (autoPencilMode) {
+            markPencils();
+        }
+    }
+}
+
+function markPencils() {
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            if (guessGrid[x][y] != null)
+                continue;
+            for (let num = 1; num <= 9; num++) {
+                if (canBeNumber(x, y, num)) {
+                    document.getElementById(x + ":" + y + ":" + num).innerHTML = num;
+                } else {
+                    document.getElementById(x + ":" + y + ":" + num).innerHTML = '&nbsp;';
+                }
+            }
+        }
+    }
+}
+
+function clearPencils() {
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
+            for (let num = 1; num <= 9; num++) {
+                document.getElementById(x + ":" + y + ":" + num).innerHTML = '&nbsp;';
+            }
+        }
+    }
+}
+
+function canBeNumber(x, y, num) {    
+    for (let i = 0; i < 9; i++) {
+        if (guessGrid[x][i] == num)
+            return false;
+        if (guessGrid[i][y] == num)
+            return false;
+    }
+    let xpos = 2 - (x % 3);
+    let ypos = 2 - (y % 3);
+    for (let k = -2; k <= 0; k++) {
+        for (let l = -2; l <= 0; l++) {
+            if (guessGrid[x + xpos + k][y + ypos + l] == num)
+                return false;
+        }
+    }
+    return true;
 }
 
 function init() {
     let element;
     let x = 0, y = -1;
+
+    // Mode toggles
+    pencilMode = (document.getElementById('PencilMode') == null ? false : document.getElementById("PencilMode").value == 'true');
+    autoCheckMode = (document.getElementById('AutoCheckMode') == null ? false : document.getElementById("AutoCheckMode").value == 'true');
+    autoPencilMode = (document.getElementById('AutoPencilMode') == null ? false : document.getElementById("AutoPencilMode").value == 'true');
+
+    if (autoPencilMode) {
+        markPencils();
+    }
+
     while (!element) {
         y++;
         if (y > 8) {
@@ -48,8 +133,28 @@ function init() {
         selectInput(x, y);
 
         window.setTimeout(clearResults, 3000);
-    } else { // Comlet3ed
+    } else { // Completed
         clearResults();
+    }
+}
+
+function togglePencil() {
+    pencilMode = !pencilMode;
+    document.getElementById("PencilMode").value = pencilMode;
+}
+
+function toggleAutoCheck() {
+    autoCheckMode = !autoCheckMode;
+    document.getElementById("AutoCheckMode").value = autoCheckMode;
+}
+
+function toggleAutoPencil() {
+    autoPencilMode = !autoPencilMode;
+    document.getElementById("AutoPencilMode").value = autoPencilMode;
+    if (autoPencilMode) {
+        markPencils();
+    } else {
+        clearPencils();
     }
 }
 

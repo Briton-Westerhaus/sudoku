@@ -1,0 +1,57 @@
+.briton-toggle-container {
+    white-space: nowrap;
+    display: block;
+    margin-bottom: .5em;
+}
+
+.briton-toggle-container label {
+    line-height: 1.575em;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: .5em;
+}
+
+.briton-toggle {
+    color: white;
+    font-size: 1.75em;
+    border-radius: .9em;
+    line-height: .9em;
+    height: .9em;
+    width: 2em;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color, .3s ease;
+    float: right;
+}
+
+.briton-clearfix {
+    font-size: 0px;
+    content: ".";
+    clear: both;
+}
+
+.briton-toggle span{
+    position: relative;
+    transition: all .3s ease;
+}
+
+.toggle-off {
+    background-color: rgb(156, 156, 156);
+}
+
+.toggle-off span {
+    left: 0px;
+}
+
+.toggle-on {
+    background-color: rgb(20, 111, 230);
+}
+
+.toggle-on span {
+    left: 57%;
+}
+
+input[type=checkbox]:after {
+    display: block!important;
+    content: '<div>Test</div>';
+}

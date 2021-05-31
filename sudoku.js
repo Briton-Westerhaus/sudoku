@@ -153,7 +153,6 @@ const canSolve = function(guessGrid, x = -1, y = -1) {
     // This actually needs to run recursively on the resulted grid to make sure it can be solved the whole way through. 
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            // TODO: Clone remove stack
             if (guessGrid[i][j] != fullGrid[i][j] && solveHelp(i, j, guessGrid)) {
                 // Something bad with chaining back the false from canSolve below?
                 guessGrid[i][j] = fullGrid[i][j];
